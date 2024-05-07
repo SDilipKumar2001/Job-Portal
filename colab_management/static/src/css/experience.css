@@ -1,0 +1,106 @@
+body{
+  font-family: Roboto,sans-serif !important;
+}
+p,
+label {
+    margin-right: 15px;
+    line-height: 32px;
+}
+
+input {
+  appearance: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #F76A08;
+  transition: 0.2s all linear;
+  margin-right: 8px;
+  position: relative;
+  top: 0px;
+  left: 4px;
+  
+}
+
+/* fieldset
+{
+  background-color:#FFFFFF;
+  max-width:700px;
+  padding:16px;	
+} */
+
+legend {
+  color: #0e0e0e;
+  padding: 5px 10px;
+  border: 0;
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: underline;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  }
+  input:checked {
+    border: 6px solid black;
+  }
+  input[type="radio"] {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5); 
+    transform: scale(1.5);
+  }
+
+
+/* text-left here to start */
+.text-left{
+  text-align: left !important;
+}
+ 
+.heading-text{
+  color: #666;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.card-body-box-shadow{
+  
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;
+  border-radius: 15px !important;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  padding: 15px 20px 10px;
+  border-bottom: solid 1px #eee;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+
+.job-description h2
+{
+  color: #121224;
+  text-align: left;
+  font-size: 16px;
+  line-height: 20px;
+  margin-left: 15px;
+}
+.description-para{
+  font-weight: 500;
+  font-size: 15px;
+  color:#474d6a;
+}
+.required-head
+{
+  margin-bottom: 0px !important;
+  font-weight: bold;
+  color: #121224;
+  text-align: left;
+  font-size: 16px;
+}
+.required-para
+{
+  margin-bottom: 0px !important;
+  font-weight: 500;
+  font-size: 15px;
+  color:#474d6a;
+}

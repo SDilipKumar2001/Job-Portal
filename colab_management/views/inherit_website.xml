@@ -1,0 +1,1760 @@
+<odoo>
+
+    <data>
+
+
+        <!-- <template id="homepage_inherit_product_display" inherit_id="website.homepage" name="Job Portal" active="True"
+             customize_show="True">
+       <data inherit_id="website.homepage">
+           <xpath expr="//div[@id='wrap']" position="after">
+               <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+               <div class="container mt32 mb64">
+                   <section>
+                       <div class="product_details">
+                           <center>
+                               <h3>Job Description</h3>
+                           </center>
+                       </div>
+                       <br/>
+                       <div class="oe_product_cart_new row" style="overflow: hidden;">
+                           <t t-foreach="job_description_ids" t-as="job_description_id">
+                               <div class="col-md-10 col-sm-10 col-xs-20"
+                                    style="padding:1px 1px 1px 1px;">
+                                   <div style="border: 5px solid #f0eaea;width: 150px;height: auto;padding: 7% 0% 10% 0%;
+                                    border-radius: 3px;overflow: hidden;
+                                    margin-bottom: 44px !important;width: 100%;height: 90%;">
+                                       <div class="oe_job_description">
+                                           <center>
+                                               <div style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                   <t t-if="job_description_id.name">
+                                                       <span t-esc="job_description_id.name"
+                                                             style="font-weight: bolder;color: #000000;font-size:25px"/>
+                                                       <br/>
+                                                   </t>
+                                               </div>
+                                               <div style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                <t t-if="job_description_id.client">
+                                                    <span t-esc="job_description_id.client"
+                                                          style="font-weight: bolder;color: #333333;font-size:20px"/>
+                                                    <br/>
+                                                </t>
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.experience">
+                                                                <p>💼
+                                                                <span t-esc="job_description_id.experience"
+                                                                      style="font-weight: bolder;color: #333333;font-size:20px"/>
+                                                                </p>
+                                                                <br/>
+                                                            </t>
+                                                    </div>
+                                                
+                                                    <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.salary">
+                                                                <p>₹
+                                                                <span t-esc="job_description_id.salary"
+                                                                      style="font-weight: bolder;color: #333333;font-size:20px"/>
+                                                                </p>
+                                                                <br/>
+                                                            </t>
+                                                    
+                                                </div>
+                                                    <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.location">
+                                                                <p>📌
+                                                                <span t-esc="job_description_id.location"
+                                                                      style="font-weight: bolder;color: #333333;font-size:20px"/>
+                                                                </p>
+                                                                <br/>
+                                                            </t>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.description">
+                                                                <p>📄
+                                                                <span t-esc="job_description_id.description"
+                                                                      style="font-weight: bolder;color: #333333;font-size:20px"/>
+                                                                </p>
+                                                                <br/>
+                                                            </t>
+                                                    
+                                                </div>
+                                                <div style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                    <t t-if="job_description_id.skills">
+                                                        <p>
+                                                        <span style="font-size:20px; color:#666666; font-weight: bold;">Required Skills:</span>
+                                                        <span t-esc="job_description_id.skills"
+                                                              style="font-weight: bolder;color: #333333;font-size:20px"/>
+                                                        </p>
+                                                        <br/>
+                                                    </t>
+                                            
+                                                </div>
+                                             <a style="background-color: #2b2424;color: white;width: 30%;left: 28%;
+                                           height: 39px;display: block;padding: 5px 1px 1px 1px;font-size: 20px;
+                                           border-radius: 3px;margin-top: 10px;text-decoration: none;
+                                           position: absolute;bottom"
+                                           t-attf-href="/login">Apply Now
+                                               </a>
+                                           </center>
+                                       </div>
+                                   </div>
+                               </div>
+                           </t>
+                       </div>
+                   </section>
+                   <br/>
+                   <hr class="border-600 s_hr_1px w-100 mx-auto s_hr_dotted"/>
+               </div>
+           </xpath>
+       </data>
+   </template>
+
+   <record id="login_page" model="website.page">
+    <field name="name">Sign-In Page</field>
+    <field name="type">qweb</field>
+    <field name="url">/login</field>
+    <field name="website_published">True</field>
+    <field name="key">colab_management.login_page</field>
+    <field name="arch" type="xml">
+    <t name="login_page" t-name="colab_management.login_page">
+        <t t-call="website.layout">
+        <div id="wrap">
+        <div class="oe_structure">
+        <div class="container">
+                <form role="form" action="/job/portal" method="POST" >
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <h1 style="text-align:center;font-weight: bolder;font-size: 50px">User Login</h1>
+                        <center>
+                            <h3 >Existing User</h3>
+                            <div class="col-3" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                <input type="text" name="partner_name" t-att-value="partner_name" required=""
+                                id="partner_name" class="form-control" placeholder="Username or Email" />
+                            </div>
+                            <div class="col-3 col-xs-offset-2" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                <input type="password" name="name" t-att-value="name"
+                                id="name" class="form-control" placeholder="Password" required=""/>
+                            </div>
+                        <div class="clearfix oe_login_buttons">  
+                            <button type="object" class="btn btn-primary pull-center">ENTER</button>
+                        </div> 
+                        </center>
+                    </form>
+
+
+
+                    <form role="form" action="/login/website" method="POST" >
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <h3 style="text-align:center">New User</h3>
+                            <center>
+                            <div class="col-3" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                <input type="text" name="partner_name" t-att-value="partner_name"
+                                id="partner_name" class="form-control" placeholder="Pick a Username" required=""/>
+                            </div>
+                            <div class="col-3 col-xs-offset-2" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                <input type="text" name="name" t-att-value="name"
+                                id="name" class="form-control" placeholder="Pick Your Full Name" required=""/>
+                            </div> 
+                            <div class="col-3" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                <input type="email" name="partner_name" t-att-value="partner_name"
+                                id="partner_name" class="form-control" placeholder="Your Email" required=""/>
+                            </div>
+                            <div class="col-3 col-xs-offset-2" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                <input type="password" name="name" t-att-value="name"
+                                id="name" class="form-control" placeholder="Set a Password" required=""/>
+                            </div>
+                        <div class="clearfix oe_login_buttons" >  
+                            <button type="object" class="btn btn-primary pull-center">SIGN UP</button>
+                        </div>
+                    </center>
+                        
+                </form>
+                    
+        </div>
+        </div>
+        </div>
+        </t>
+    </t>
+    </field>
+    </record>
+    
+    
+    
+    <record id="experience_page" model="website.page">
+        <field name="name">Experience Page</field>
+        <field name="type">qweb</field>
+        <field name="url">/experience</field>
+        <field name="website_published">True</field>
+        <field name="key">colab_management.experience_page</field>
+        <field name="arch" type="xml">
+        <t name="experience" t-name="colab_management.experience_page">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="oe_structure">
+                        <div class="container"> 
+                            <h1 style="text-align:center;">Experience</h1>                  
+                            <form role="form" action="/experience/url" method="POST">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/> 
+                                    
+                                        <h3>Work Status</h3>
+                                        <div class="radio" style="padding: 5px 1px 1px 1px;text-align: left;font-size: 20px;">
+                                            <label><input type="radio" name="exp" class="big">💼  I'm Experienced (I have work experience)</input></label>
+                                          </div>
+                                          <div class="radio" style="padding: 13px 1px 1px 1px;text-align: left;font-size: 20px;">
+                                            <label><input type="radio" name="exp" class="big">🎒  I'm a Fresher (I am a student/ Haven't worked after graduation)</input></label>
+                                          </div>
+                                          <div class="clearfix oe_login_buttons">  
+                                            <button type="object" class="btn btn-primary pull-left">Next</button>
+                                        </div>
+                                    
+                            </form>   
+                    </div>
+                </div>       
+            </div>
+        </t>
+    </t>
+    </field>
+    </record>
+
+
+
+
+    <record id="candidate_details" model="website.page">
+        <field name="name">Candidate Details</field>
+        <field name="type">qweb</field>
+        <field name="url">/candidate</field>
+        <field name="website_published">True</field>
+        <field name="key">colab_management.candidate_details</field>
+        <field name="arch" type="xml">
+        <t name="details" t-name="colab_management.candidate_details">
+            
+        <t t-call="website.layout">
+            <div id="wrap"> 
+                <div class="oe_structure">
+                    <div class="container">              
+                        <form role="form" action="/candidate/details" method="POST" >
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="partner_name" class="control-label">Name</label>
+                                        <input type="text" name="partner_name" t-att-value="partner_name"
+                                            id="partner_name" class="form-control" required=""/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="name" class="control-label">Application Name/Subject</label>
+                                        <input type="text" name="name" t-att-value="name" id="name"
+                                            class="form-control" required=""/>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="gender" class="control-label">Gender</label>
+                                        <select style="" class="form-control" name="gender">
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="others">Others</option>
+                                        </select> 
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="dob" class="control-label">DOB</label>
+                                        <input type="date" name="dob" class="form-control" required="required"/>
+                                    </div>
+
+                                   <div class="col-3">
+                                        <label for="partner_mobile" class="control-label">Mobile</label>
+                                        <input type="text" name="partner_mobile" id="partner_mobile" class="form-control" pattern="[1-9]{1}[0-9]{9}"
+                                            t-att-value="partner_mobile" />
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="whats" class="control-label">Whatsapp Number</label>
+                                        <input type="text" name="whats" id="whats" class="form-control" pattern="[1-9]{1}[0-9]{9}"
+                                            t-att-value="whats" />
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="email_from" class="control-label">Email</label>
+                                        <input type="email" name="email_from" id="email_from" class="form-control" t-att-value="email_from" />
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="address" class="control-label">Address</label>
+                                        <input type="text" name="address" id="address" class="form-control" t-att-value="address" />
+                                    </div>
+
+                                    <div class="col-3">
+                                        <label for="h_qualification" class="control-label">Highest Qualification</label>
+                                        <select style="" class="form-control" name="h_qualificationnder">
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="others">Others</option>
+                                        </select>  
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="r_qualification" class="control-label">Related Qualification</label>
+                                        <input type="text" name="r_qualification" id="r_qualification" class="form-control" t-att-value="r_qualification" />
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="location" class="control-label">Location Preference</label>
+                                        <input type="text" name="location" id="location" class="form-control" t-att-value="location" />
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="strength" class="control-label">Strength</label>
+                                        <input type="text" name="strength" id="strength" class="form-control" t-att-value="strength" />
+                                    </div>
+                                    
+                                    <div class="col-3">
+                                        <label for="weak" class="control-label">Weakness</label>
+                                        <input type="text" name="weak" id="weak" class="form-control" t-att-value="weak" />
+                                    </div> 
+                                </div>
+
+                            <div class="clearfix oe_login_buttons">  
+                                <button type="object" class="btn btn-primary pull-left">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+        </t>
+        </field>
+    </record>
+
+
+
+
+
+    <record id="company_experience" model="website.page">
+        <field name="name">Company Details</field>
+        <field name="type">qweb</field>
+        <field name="url">/company</field>
+        <field name="website_published">True</field>
+        <field name="key">colab_management.company_experience</field>
+        <field name="arch" type="xml">
+        <t name="Company Details" t-name="colab_management.company_experience"> 
+        <t t-call="website.layout">
+            <t t-set="head">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+                </script>
+                <script type="text/javascript" src="/colab_management/static/src/website.js"></script>
+            </t>
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">              
+                        <form role="form" action="/company/experience" method="POST" >
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="row">
+                            <div class="col-12"><h3 style="text-align: center; margin-top: 10px;">Fill only you have experience</h3></div>
+                                <div class="col-12">
+                                        <table id="exp_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Company Name</th>
+                                                    <th>Role in Company</th>
+                                                    <th>Reason For Change</th>
+                                                    <th>From</th>
+                                                    <th>To</th>
+                                                    <th>Experience</th>
+                                                    <th>Add/Delete Row</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="tr_clone">
+                                                    <td><input type="text" class="form-control" name="comp_name" id="comp_name" t-att-value="comp_name"/></td>
+                                                    
+                                                    <td><input type="text" name="role" id="role" class="form-control" t-att-value="role" /></td>
+                                                    
+                                                    <td><input type="text" class="form-control" name="change" t-att-value="change" id="change" /></td>
+                                                    
+                                                    <td><input type="date" name="from_field" class="form-control" id="from_field" t-att-value="from_field" required="required"/></td>
+                                                    
+                                                    <td><input type="date" name="to_field" class="form-control" id="to_field" t-att-value="to_field" required="required"/></td>
+                                                    
+                                                    <td><input type="text" name="years" class="form-control" id="years" t-att-value="years"/></td>
+                                                    
+                                                    <td class="">
+                                                        <input type="button" value="Add" class="row-add" /> <input type="button" value="delete" class="del-row"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody> 
+                                        </table>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="last" class="control-label">Last Drawn Salary</label>
+                                        <input type="text" name="last" t-att-value="last" id="last"
+                                        class="form-control" />
+                                    </div>
+                                    <div class="col-3">
+                                            <label for="salary_expected" class="control-label">Expected Salary</label>
+                                            <input type="text" name="salary_expected" t-att-value="salary_expected"
+                                                id="salary_expected" class="form-control" />
+                                    </div>
+                                </div> 
+
+                            <div class="clearfix oe_login_buttons">  
+                                <button type="object" class="btn btn-primary pull-left">Next</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+        </field>
+    </record>
+
+    <record id="abroad_redirection" model="website.page">
+        <field name="name">Abroad</field>
+        <field name="type">qweb</field>
+        <field name="url">/abroad</field>
+        <field name="website_published">True</field>
+        <field name="key">colab_management.abroad_redirection</field>
+        <field name="arch" type="xml">
+            <t name="application3" t-name="colab_management.abroad_redirection"> 
+                <t t-call="website.layout">
+                    <div id="wrap">
+                        <div class="oe_structure">
+                            <div class="container"> 
+                                <form role="form" action="/filling/data" method="POST" >
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label for="go_abroad" class="control-label">Willing to go Abroad</label>
+                                            <select style="" class="form-control" name="go_abroad">
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select>                               
+                                        </div>
+                                        
+                                        <div class="col-12"><h3 style="text-align: center;">If yes fill the details below</h3></div>
+
+                                        <div class="col-3">
+                                            <label for="port" class="control-label">Have Passport</label>
+                                            <select style="" class="form-control" name="port">
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                            </select> 
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="pass_number" class="control-label">passport Number</label>
+                                            <input type="text" name="pass_number" t-att-value="pass_number" id="pass_number"
+                                            class="form-control" />
+                                        </div> 
+                                    </div> 
+                                    <div class="clearfix oe_login_buttons">  
+                                        <button type="object" class="btn btn-primary pull-left">Next</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="updation_resume" model="website.page">
+        <field name="name">Resume</field>
+        <field name="type">qweb</field>
+        <field name="url">/resume</field>
+        <field name="website_published">True</field>
+        <field name="key">colab_management.updation_resume</field>
+        <field name="arch" type="xml">
+            <t name="application3" t-name="colab_management.updation_resume"> 
+                <t t-call="website.layout">
+                    <div id="wrap">
+                        <div class="oe_structure">
+                            <div class="container"> 
+                                <form role="form" action="/website/update" method="POST" >
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="col-3">
+                                        <label for="res" class="control-label">Resume</label>
+                                        <input type="file" name="res" id="res" class="form-control"  t-att-value="res" />
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="other" class="control-label">Other Certificate</label>
+                                        <input type="file" name="other" id="other" class="form-control"  t-att-value="other" />
+                                    </div>
+                                    <div class="clearfix oe_login_buttons">  
+                                        <button type="submit" class="btn btn-primary pull-left">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+    
+    
+    <record id="applied_thanks" model="website.page">
+        <field name="name">Thanks</field>
+        <field name="type">qweb</field>
+        <field name="url">/applied-thank-you</field>
+        <field name="website_published">True</field>
+        <field name="key">colab_management.applied_thanks</field>
+        <field name="arch" type="xml">
+            <t name="Thanks" t-name="colab_management.applied_thanks">
+                <t t-call="website.layout">
+                    <div id="wrap">
+                        <div class="container">
+                            <h1>Thank You!</h1>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-success" role="status"> 
+                                            <p>
+                                                Your job application has been successfully registered,we will get back to you soon
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> 
+                        </div>              
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>  -->
+
+        <template id="homepage_inherit_product_display" inherit_id="website.homepage" name="Job Portal" active="True"
+            customize_show="True">
+            <!-- <div class="body" style="background-color:#7E57C2"> -->
+            <data inherit_id="website.homepage">
+                <xpath expr="//div[@id='wrap']" position="after">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/experience.css" />
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                        <script type="text/javascript" src="/colab_management/static/src/website.js">]</script>
+                        <!-- <script>
+                            $(document).on('click','.jobcls',function(){
+                                var id=$(this).val()
+                               var current_url=window.location.href;
+                               window.location.href=current_url+id
+
+                            })
+                        </script> -->
+                    </t>
+                        <!-- <form role="form" t-att-action="'/first/page/' + str(job_description_id.id) + '/' + int(job_description_id.client.id)" method="POST"> -->
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <div class="container mt32 mb64">
+                            <section>
+                                <center>
+                                    <h1 style="font-weight:bolder;font-size:30px">JOB PORTAL</h1>
+                                </center>
+                               <br />
+
+                                <div class="oe_product_cart_new row" style="overflow: hidden;">
+                                    <center>
+                                        <t t-foreach="job_description_ids" t-as="job_description_id">
+
+                                            <!-- heading text here to start -->
+
+                                            <!-- <div class="col-md-9 mb-30">
+                                                <heading class="float-left heading-text">Jobs</heading>
+                                            </div> -->
+                                            <div class="col-md-9 col-sm-9 " style="padding:1px 1px 1px 1px;">
+                                                <div class="card-body card-body-box-shadow p-0">
+
+                                                    <div class="oe_job_description">
+                                                        <!-- <center> -->
+                                                        <div style="">
+                                                            <t t-if="job_description_id.name">
+                                                                <span  class="card-title job-title-head" t-esc="job_description_id.name" />
+                                                                <!-- <span for='job_position' name="job_position" t-esc="job_description_id.id" t-att-value="job_description_id.id" id="job_position"/>
+                                                                <span  for='company_id' name="company_id" t-esc="job_description_id.client.id" t-att-value="job_description_id.client.id" id="company_id"/> -->
+                                                                <br />
+                                                            </t>
+                                                        </div>
+    <!-- {t-att-value} is used to store the values in some variable and used the stored data for any other purpose-->
+                                                        <!-- <t t-foreach="company_details" t-as="company"> -->
+                                                        <div style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.client.name">
+                                                                <!-- IN THIS CASE I USE {job_description_id.client.name} THIS SHOWS THAT
+    {job_description_id} is  the loop name <t-as>
+    {client} is the appropriate model's field name (i.e)here the client is the field_nama but its is many2one field
+    so that's why i put {name} here name is the many2one field model's field name (i.e)[model_name(many2one)]company.details field_name(name)-->
+                                                                <span t-esc="job_description_id.client.name"
+                                                                    style="font-weight: bolder;color: #000000;font-size:20px" />
+                                                                <br />
+                                                            </t>
+                                                        </div>
+                                                        <!-- </t> -->
+                                                        <div class="row">
+                                                            <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                                <t t-if="job_description_id.experience">
+                                                                    <p>
+                                                                        💼
+                                                                        <span t-esc="job_description_id.experience"
+                                                                            style="font-weight: bolder;font-size:20px" />
+                                                                    </p>
+                                                                    <br />
+                                                                </t>
+                                                            </div>
+
+                                                            <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                                <t t-if="job_description_id.salary">
+                                                                    <p>
+                                                                        ₹
+                                                                        <span t-esc="job_description_id.salary"
+                                                                            style="font-weight: bolder;font-size:20px" />
+                                                                    </p>
+                                                                    <br />
+                                                                </t>
+                                                            </div>
+                                                            <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                                <t t-if="job_description_id.country">
+                                                                    <p style="font-weight: bolder;font-size:20px">
+                                                                        Country :
+                                                                        <span t-esc="job_description_id.country.name"
+                                                                            style="font-weight: bolder;font-size:20px" />
+                                                                    </p>
+                                                                    <br />
+                                                                </t>
+                                                            </div>
+                                                            <div class="col-3" style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                                <t t-if="job_description_id.location">
+                                                                    <p>
+                                                                        📌
+                                                                        <span t-esc="job_description_id.location"
+                                                                            style="font-weight: bolder;font-size:20px" />
+                                                                    </p>
+                                                                    <br />
+                                                                </t>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- job description Heading -->
+                                                        <div class="product_details job-description">
+                                                            
+                                                                <h2 style="font-weight:bolder">Job Description</h2>
+                                                         
+                                                        </div>
+                                                        <!-- the end -->
+
+                                                        <div  style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.description">
+                                                                <p style="margin-bottom: 0px !important;">
+                                                                    📄
+                                                                    <span t-esc="job_description_id.description"
+                                                                         class="description-para" />
+                                                                </p>
+                                                                <br />
+                                                            </t>
+
+                                                        </div>
+                                                        <div style="text-align: left;margin: 10px 15px 3px 15px;">
+                                                            <t t-if="job_description_id.skills">
+                                                                <div>
+                                                                    <p class="required-head">Required Skills:</p>
+                                                                  
+                                                                    <p t-esc="job_description_id.skills"
+                                                                        style="font-weight: bolder;font-size:20px" />
+                                                                </div>
+                                                                <br />
+                                                            </t>
+
+                                                        </div>
+                                                        <!-- <a style="background-color: #2b2424;color: white;width: 30%;left: 28%;
+                                        height: 39px;display: block;padding: 5px 1px 1px 1px;font-size: 20px;
+                                        border-radius: 3px;margin-top: 10px;text-decoration: none;
+                                        position: absolute;bottom" 
+                                        t-attf-href="/login">Apply Now
+                                            </a> -->
+                                            <div class="clearfix oe_login_buttons">
+                                            <a style="background-color:#F76A08;color: black" t-attf-href="/first/page/#{job_description_id.id}/#{job_description_id.client.id}" class="btn btn-primary pull-center" >Apply Now
+                                            </a>
+                                                <!-- <button type="object" style="background-color: 	#F76A08;color: black"  class="btn btn-primary pull-center" >APPLY NOW</button> -->
+                                                <!-- <button onclick="this.innerHTML=job_description_ids.id">The time is?</button> -->
+                                                <!-- job_description_id.id -->
+                                            </div>
+                                                        <!-- </center> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </center>
+                                </div>
+                            </section>
+                            <br />
+                            <hr class="border-600 s_hr_1px w-100 mx-auto s_hr_dotted" />
+                        </div>
+                    <!-- </form> -->
+                </xpath>
+            </data>
+            <!-- </div> -->
+        </template>
+
+        <record id="login_page" model="website.page">
+            <field name="name">Sign-In Page</field>
+            <field name="type">qweb</field>
+            <field name="url">/login</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.login_page</field>
+            <field name="arch" type="xml">
+                <t name="login_page" t-name="colab_management.login_page">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container">
+                                    <!-- <form role="form" action="https://colab.mo.vc/web/login" method="POST" > -->
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <h1 style="text-align:center;font-weight: bolder;font-size: 30px; margin-bottom: 20px;">Registration</h1>
+                                        
+                                      
+
+                                            <!-- <h3 >Existing User</h3>
+                                            <div class="login-form">
+                                                    <div class="col-3" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                                        <input type="text" name="partner_name" t-att-value="partner_name" required=""
+                                                        id="partner_name" class="login-field" placeholder="Username or Email" />
+                                                    </div>
+                                                    <div class="col-3 col-xs-offset-2" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                                        <input type="password" name="name" t-att-value="name"
+                                                        id="name" class="login-field" placeholder="Password" required=""/>
+                                                    </div>
+                                                    <div class="clearfix oe_login_buttons">  
+                                                        <button type="object" style="background-color: #00ff00;color: black" class="btn btn-primary pull-center">ENTER</button>
+                                                    </div> 
+                                            </center>
+                                        </form> -->
+
+                                    <form role="form" action="/login/website" method="POST">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        
+                                        <div class="login-page">
+                                            <div class="form" style="background-color:#fff;">
+
+
+                                                <!-- <center> -->
+                                                <div class="input-group" style="text-align:center;">
+                                                    <input type="text" name="name" t-att-value="name"
+                                                        id="name" class="form-control" placeholder="Full Name" required="" />
+                                                </div>
+                                                <div class="input-group" style="text-align:center;">
+                                                    <input type="email" name="login" t-att-value="login"
+                                                        id="login" class="form-control" placeholder="Your Email" required="" />
+                                                </div>
+                                                <div class="input-group col-xs-offset-2" style="text-align:center;">
+                                                    <input type="password" name="password" t-att-value="password"
+                                                        id="password" class="form-control" placeholder="Set a Password" minlength="8" required="" />
+                                                </div>
+                                                <div class="input-group" style="text-align:center;">
+                                                    <input type="text" name="partner_phone" t-att-value="partner_phone"
+                                                        id="partner_phone" class="form-control" placeholder="Phone number" pattern="[1-9]{1}[0-9]{9}" required="" />
+                                                </div>
+                                                <!-- <div class="input-group" hidden='hidden'>
+                                                    <select class="form-control" name="sel_groups_1_9_10" style="font-size:20px;font-color:black;">
+                                                        <option value="9">Portal</option>
+                                                        <option value="1">Internal User</option>
+                                                        <option value="10">Public</option>
+                                                    </select>
+                                                </div> -->
+
+                                                <!-- <input type="hidden" id="sel_groups_1_9_10" name="sel_groups_1_9_10" value='9' /> -->
+                                                <!-- <div class="clearfix oe_login_buttons" >   --> 
+                                                <!-- class="btn btn-primary pull-center" -->
+
+                                                <div class="input-group" style="text-align:center;">
+                                                    <button type="object" style="background-color: #0365ae; color: #fff; font-size: 14px; " class="form-control">SIGN UP</button>
+                                                </div>
+                                                <!-- </center> -->
+                                   
+                                            </div>  
+    
+
+                                        </div>
+
+                                    </form>
+                                  <center style="display: flex; align-items: center;    justify-content: center;     margin-bottom: 40px;">
+                                            <h3 style="font-size: 16px;     padding-right: 22px;    margin-bottom: 0;">Existing User</h3>
+                                            <!-- <form action="https://colab.mo.vc/my"> -->
+                                                <form action="https://colab.mo.vc/web/login">
+                                                    <div class="input">
+                                                        <button type="object" style="background-color: #66ffcc;color: black; border-radius: 45px; padding: 10px 25px;font-size: 14px;font-weight: 300;border: 0px;">CLICK HERE</button>
+                                                    </div>
+                                                </form>
+                                        </center>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+
+        <record id="experience_page" model="website.page">
+            <field name="name">Experience Page</field>
+            <field name="type">qweb</field>
+            <field name="url">/experience</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.experience_page</field>
+            <field name="arch" type="xml">
+                <t name="experience" t-name="colab_management.experience_page">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/experience.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-top: 30px;">
+                                    <h1 style="text-align:center;margin-bottom: 15px;">Experience</h1>
+                                    <div style=" box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px; border-radius: 10px;">
+                                    <form role="form" action="/fresher/url" method="POST" style="padding: 20px 20px 0px 20px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <!-- <h3 style="text-align:center;">Work Status</h3> -->
+                                        <!-- <div class="row">
+                            <div class="col-3">
+                                <select style="width:900px" class="form-control" name="exp">
+                                    <option value="fresher">Fresher</option>
+                                    <option value="experience">Experience</option>
+                                </select>                               
+                            </div>
+                        </div> -->
+                                    <!-- <div class="radio" style="padding: 5px 1px 1px 1px;text-align: center;font-size: 20px;">
+                                        <label for="exp"><input type="radio" name="exp" value="fresher">Fresher</input></label>
+                                        <label for="exp"><input type="radio" name="exp" value="experience">Experience</input></label>
+                                    </div> -->
+                                        <!-- <fieldset>
+                                            <legend>Select Your Work Status:</legend>
+                                            <br />
+                                            <div class="col-xs-offset-2" style="margin-bottom:10px;">
+                                                <input type="radio" id="exp" name="exp" value="fresher" />
+                                                <label for="exp" style="font-size:20px;font-weight: 700 !important;">Fresher</label>
+
+                                                <input type="radio" id="exp" name="exp" value="experience" />
+                                                <label for="exp" style="font-size:20px;font-weight: 700 !important;">Experience</label>
+                                            </div>
+                                        </fieldset> -->
+                                        <!-- <div class="radio" style="padding: 13px 1px 1px 1px;text-align: left;font-size: 20px;">
+                                    </div> -->
+                                        <div class="clearfix" style="text-align:left;display: flex;">
+                                            <label class="control-label" style="font-size: 18px;text-align:left;">🎒  I'm a Fresher (I am a student/ Haven't worked after graduation)</label>
+                                            <button type="object apply-here" style="color: #fff;font-weight: 500;background-color: #993333;border: 0px;padding: 10px;border-radius: 8px;">APPLY HERE</button>
+                                        </div>
+                                    </form>
+                                    <form role="form" action="/experience/url" method="POST" style="padding: 0px 20px 20px 20px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <div class="clearfix" style="text-align:left;display: flex;">
+                                            <label class="control-label" style="font-size: 18px;text-align:left;">💼  I'm Experienced (I have work experience)</label>
+                                            <button type="object" style="color: #fff;font-weight: 500;background-color: #993333;border: 0px;padding: 10px;border-radius: 8px;">APPLY HERE</button>
+                                        </div>
+                                    </form>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="candidate_fresher" model="website.page">
+            <field name="name">Candidate Fresher</field>
+            <field name="type">qweb</field>
+            <field name="url">/candidate</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.candidate_fresher</field>
+            <field name="arch" type="xml">
+                <t name="fresher" t-name="colab_management.candidate_fresher">
+                    <t t-set="head">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+                        <script>
+                            $(document).ready(function(){
+                                var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+                                   removeItemButton: true,
+                                   searchResultLimit:5,
+                                   renderChoiceLimit:5
+                                 });  
+                            });
+<!-- THE BELOW JS CODE IS USED TO RESTRICT THE DATE FIELD TO SELECT THE FUTURE DATE  CHECK dob FIELD HERE IMPORTANT IS id="dob"-->
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var currentDate = new Date().toISOString().split('T')[0];
+                                var dob = document.getElementById("dob");
+                                dob.setAttribute("max", currentDate);
+                            });
+                        </script>
+
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css" />
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-bottom: 50px;">
+                                <center>
+                                            <h1 style="margin-top: 30px;margin-bottom: 15px;"> Key Details(Fresher)</h1>
+  
+                                        </center>
+                                        <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;">
+                                    <form role="form" action="/candidate/fresher" method="POST" style="padding: 40px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+
+                                        
+                                        <div class="row">
+
+                                            <!-- <label for="client" class="control-label">Company Name</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <select name="client" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                                    <t t-foreach="company" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" style="font-color:black;" />
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <label for="job_id" class="control-label">Job Title</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <select name="job_id" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                                    <t t-foreach="job" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" style="font-color:black;" />
+                                                    </t>
+                                                </select>
+                                            </div> -->
+                                            <!-- <code>&lt;t t-if="some_boolean"&gt;
+                                                &lt;t t-raw="your_odoo_view"/&gt;
+                                            &lt;/t&gt;
+                                            </code>
+                                            <code>some_boolean</code> must be a boolean variable like this :
+                                            <code>some_boolean = fields.Boolean(default=True)
+                                            </code> -->
+                                            <t t-if="gender_bool"  t-raw="gender" />
+                                            <label for="gender" class="control-label">Gender</label>
+                                                <div class="input-group" style="text-align:center;">
+                                                <select class="form-control" name="gender" style="font-size:20px;font-color:black;">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="others">Others</option>
+                                                </select>
+                                            </div>
+
+                                            <label for="dob" class="control-label">DOB</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <input type="date" id="dob" style="font-size:20px;font-color:black;padding-right: 0px !important;" name="dob" class="form-control" required="required" />
+                                            </div>
+
+
+                                            <label for="partner_mobile" class="control-label">Mobile</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <input type="text" style="font-size:20px;font-color:black;" name="partner_mobile" id="partner_mobile" class="form-control" pattern="[1-9]{1}[0-9]{9}"
+                                                    t-att-value="partner_mobile" />
+                                            </div>
+
+                                            <label for="whats" class="control-label">Whatsapp Number</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <input type="text" style="font-size:20px;font-color:black;" name="whats" id="whats" class="form-control" pattern="[1-9]{1}[0-9]{9}"
+                                                    t-att-value="whats" />
+                                            </div>
+
+                                            <label class="control-label">Address</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <input type="text" style="font-size:20px;font-color:black;" name="address" id="address" class="form-control" t-att-value="address" />
+                                            </div>
+
+                                             <!-- <label for="known_languages" class="control-label">Known Languages</label>
+                                            <div class="input-group" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                                <select name="known_languages" class="form-control link-style" style="font-size:20px;font-color:black;" multiple="multiple">
+                                                    <t t-foreach="permit_ids" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" />
+                                                    </t>
+                                                </select>
+                                            </div> -->
+                                            <label for="known_languages" class="control-label">Known languages</label>
+                                                <div class="form-input" style="margin-bottom: 15px;"> 
+                                                    <select name="known_languages" id="choices-multiple-remove-button" placeholder="Select The Languages you know"  style="font-size:20px;font-color:black;" multiple="">
+                                                        <!-- <option value="Tamil">Tamil</option>
+                                                        <option value="English">English</option>
+                                                        <option value="Hindi">Hindi</option>
+                                                        <option value="Telugu">Telugu</option>
+                                                        <option value="Malayalam">Malayalam</option>
+                                                        <option value="Arabic">Arabic</option>
+                                                        <option value="Japanese">Japanese</option>
+                                                        <option value="Chinese">Chinese</option>
+                                                        <option value="Spanish">Spanish</option>
+                                                        <option value="French">French</option>
+                                                        <option value="Mandarin">Mandarin</option>
+                                                        <option value="Italian">Italian</option>
+                                                        <option value="Dutch">Dutch</option> -->
+                                                        <t t-foreach="permit_ids" t-as="connect">
+                                                            <option t-esc="connect.name" t-att-value="connect.id"/>
+                                                        </t>
+                                                    </select> 
+                                                </div>
+
+                                            <label for="h_qualification" class="control-label">Highest Qualification</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <select name="h_qualification" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                                    <t t-foreach="fresher" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" />
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <label for="r_qualification" class="control-label">Related Qualification</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <input type="text" style="font-size:20px;font-color:black;" name="r_qualification" id="r_qualification" class="form-control" t-att-value="r_qualification" />
+                                            </div>
+
+                                            <label for="location" class="control-label">Location Preference</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <input type="text" style="font-size:20px;font-color:black;" name="location" id="location" class="form-control" t-att-value="location" />
+                                            </div>
+                                            <br />
+
+
+                                            <label for="area_of_interest" class="control-label">Area of Interest</label>
+                                            <div class="input-group">
+                                                <input type="text" name="area_of_interest" id="area_of_interest" class="form-control" t-att-value="location" style="font-size:20px;font-color:black;" />
+                                            </div>
+                                            <!-- <label for="strength" class="control-label" >Strength</label>
+                                    <div class="input-group" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                        <input type="text" style="font-size:20px;font-color:black;" name="strength" id="strength" class="form-control" t-att-value="strength" />
+                                    </div>
+                                    
+                                    <label for="weak" class="control-label" >Weakness</label>
+                                    <div class="input-group" style="text-align:center;margin: 10px 15px 3px 15px;">
+                                        <input type="text" style="font-size:20px;font-color:black;" name="weak" id="weak" class="form-control" t-att-value="weak" />
+                                    </div> -->
+                                        </div>
+                                        <br />
+
+                                        <div class="input-group ">
+                                            <button type="object" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Next</button>
+                                        </div>
+
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="abroad_redirection" model="website.page">
+            <field name="name">Abroad</field>
+            <field name="type">qweb</field>
+            <field name="url">/abroad</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.abroad_redirection</field>
+            <field name="arch" type="xml">
+                <t name="application3" t-name="colab_management.abroad_redirection">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-top: 30px;margin-bottom: 40px;">
+                                 <center>
+                                            <h1 style="margin-bottom: 15px;">Travel Abroad</h1>
+                                        </center>
+                                    <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;">
+                                    <form role="form" action="/filling/data" method="POST" style="padding: 40px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                       
+                                        <div class="row">
+                                            <label for="go_abroad" class="control-label">Willing to go Abroad</label>
+                                            <div class="input-group" style="text-align:center;font-size:20px;font-color:black;">
+                                                <select class="form-control" name="go_abroad" style="font-size:20px;">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- <div class="col-12">
+                                                <h3 style="text-align:center;">If yes fill the details below</h3>
+                                            </div> -->
+
+                                            <label for="port" class="control-label" style="font-size:20px;font-color:black;">Have Passport</label>
+                                            <div class="input-group" style="text-align:center;font-size:20px;font-color:black;">
+                                                <select class="form-control" name="port" style="font-size:20px;">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+
+                                            <label for="pass_number" class="control-label" style="font-size:20px;font-color:black;">Passport Number</label>
+                                            <div class="input-group" style="text-align:center;font-size:20px;font-color:black;">
+                                                <input type="text" name="pass_number" t-att-value="pass_number" id="pass_number"
+                                                    class="form-control" style="font-size:20px;" />
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="input-group ">
+                                            <button type="object" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Next</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="updation_resume" model="website.page">
+            <field name="name">Resume</field>
+            <field name="type">qweb</field>
+            <field name="url">/resume</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.updation_resume</field>
+            <field name="arch" type="xml">
+                <t name="application3" t-name="colab_management.updation_resume">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container">
+                                    <form role="form" action="/website/update" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <center>
+                                            <h3>Attachments</h3>
+                                        </center>
+                                        <label for="res" class="control-label" style="font-size:20px;font-color:black;">Attach CV[Note:File size not exceed than 5MB]</label>
+                                        <div class="input-group" style="text-align:center;font-size:20px;font-color:black;">
+                                            <input type="file" name="res" id="res" class="form-control" t-att-value="res" required="required" style="font-size:20px;" />
+                                        </div>
+                                        <br />
+
+                                        <!-- <label for="other" class="control-label" style="font-size:20px;font-color:black;">Other Certificate</label>
+                                        <div class="input-group" style="text-align:center;font-size:20px;font-color:black;">
+                                            <input type="file" name="other" id="other" class="form-control"  t-att-value="other" required="required" style="font-size:20px;"/>
+                                        </div><br/> -->
+
+                                        <div class="input-group ">
+                                            <button type="submit" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+
+        <record id="applied_thanks" model="website.page">
+            <field name="name">Thanks</field>
+            <field name="type">qweb</field>
+            <field name="url">/applied-thank-you</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.applied_thanks</field>
+            <field name="arch" type="xml">
+                <t name="Thanks" t-name="colab_management.applied_thanks">
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="container">
+                                <center>
+                                    <i class="fa fa-thumbs-up" style="font-size:100px;color:green" />
+                                </center>
+                                <h1>Thank You!</h1>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-success" role="status">
+                                            <p>
+                                                    Your job application has been successfully registered,we will get back to you soon
+                                                </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <!-- TO VIEW THE IMAGE FIELD WHEN THE IMAGE IS UPLOADED-->
+            <!-- JS:
+            imgInp.onchange = evt => {
+                const [file] = imgInp.files
+                if (file) {
+                blah.src = URL.createObjectURL(file)
+                }
+            }
+            
+            XML:
+            <form runat="server">
+                <input accept="image/*" type='file' id="imgInp" />
+                <img id="blah" src="#" alt="your image" />
+            </form> -->
+
+        <record id="candidate_experience" model="website.page">
+            <field name="name">Candidate experience</field>
+            <field name="type">qweb</field>
+            <field name="url">/candidate_experience</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.candidate_experience</field>
+            <field name="arch" type="xml">
+                <t name="experience" t-name="colab_management.candidate_experience">
+                    <t t-set="head">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+                        <script>
+                            $(document).ready(function(){
+                                var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+                                   removeItemButton: true,
+                                   searchResultLimit:5,
+                                   renderChoiceLimit:5
+                                 });  
+                            });
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var currentDate = new Date().toISOString().split('T')[0];
+                                var dob = document.getElementById("dob");
+                                dob.setAttribute("max", currentDate);
+                            });
+                        </script>
+
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css" />
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-bottom: 50px;">
+                                      <center>
+                                            <h1 style="margin-top: 30px;margin-bottom: 15px;">Key Details (Experience)</h1>
+                                        </center>
+                                     <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;">   
+                                    <form role="form" action="/candidate/experience" method="POST" style="padding: 40px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                       
+                                        <div class="row">
+                                            <!-- <label for="client" class="control-label">Company Name</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <select name="client" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                                    <t t-foreach="company" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" style="font-color:black;" />
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <label for="job_id" class="control-label">Job Title</label>
+                                            <div class="input-group" style="text-align:center;">
+                                                <select name="job_id" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                                    <t t-foreach="job_main" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" style="font-color:black;" />
+                                                    </t>
+                                                </select>
+                                            </div> -->
+
+                                            <label for="gender" class="control-label">Gender</label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="gender" style="font-size:20px;font-color:black;">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="others">Others</option>
+                                                </select>
+                                            </div>
+
+                                            <label for="dob" class="control-label">DOB</label>
+                                            <div class="input-group">
+                                                <input id="dob" type="date" name="dob" class="form-control" style="font-size:20px;font-color:black; padding-right: 0px !important;" required="required" />
+                                                <!-- <input id="dob" type="text" name="dob" class="form-control o_website_form_input o_website_form_date"/> -->
+                                            </div>
+
+                                            <label for="partner_mobile" class="control-label">Mobile</label>
+                                            <div class="input-group">
+                                                <input type="text" name="partner_mobile" id="partner_mobile" class="form-control" pattern="[1-9]{1}[0-9]{9}"
+                                                    t-att-value="partner_mobile" style="font-size:20px;font-color:black;" />
+                                            </div>
+
+                                            <label for="whats" class="control-label">Whatsapp Number</label>
+                                            <div class="input-group">
+                                                <input type="text" name="whats" id="whats" class="form-control" pattern="[1-9]{1}[0-9]{9}"
+                                                    t-att-value="whats" style="font-size:20px;font-color:black;" />
+                                            </div>
+                                            <!-- <div class="input-group">
+                                    <label for="email_from" class="control-label">Email</label>
+                                    <input type="email" name="email_from" id="email_from" class="form-control" t-att-value="email_from" />
+                                </div> -->
+
+                                            <label for="address" class="control-label">Address</label>
+                                            <div class="input-group">
+                                                <input type="text" name="address" id="address" class="form-control" t-att-value="address" style="font-size:20px;font-color:black;" />
+                                            </div>
+                                            
+                                            <label for="known_languages" class="control-label">Known languages</label>
+                                                <div class="form-input"> 
+                                                    <select  name = "known_languages" id="choices-multiple-remove-button" placeholder="Select The Languages you know"  style="font-size:20px;font-color:black;" multiple="">
+                                                        <!-- <option value="Tamil">Tamil</option>
+                                                        <option value="English">English</option>
+                                                        <option value="Hindi">Hindi</option>
+                                                        <option value="Telugu">Telugu</option>
+                                                        <option value="Malayalam">Malayalam</option>
+                                                        <option value="Arabic">Arabic</option>
+                                                        <option value="Japanese">Japanese</option>
+                                                        <option value="Chinese">Chinese</option>
+                                                        <option value="Spanish">Spanish</option>
+                                                        <option value="French">French</option>
+                                                        <option value="Mandarin">Mandarin</option>
+                                                        <option value="Italian">Italian</option>
+                                                        <option value="Dutch">Dutch</option> -->
+                                                        <!-- <select name="known_languages" id="choices-multiple-remove-button" placeholder="Select The Languages you know"  style="font-size:20px;font-color:black;" multiple=""> -->
+                                                            <t t-foreach="permit_ids" t-as="connect">
+                                                                <option t-esc="connect.name" t-att-value="connect.id"/>
+                                                            </t>
+                                                        <!-- </select>  -->
+                                                    </select> 
+                                                </div>
+
+                                                <!-- <label for="known_languages" class="control-label">Known languages</label>
+                                                <div class="form-input"> 
+                                                    <select name="known_languages" id="choices-multiple-remove-button" placeholder="Select The Languages you know"  style="font-size:20px;font-color:black;" multiple="">
+                                                        <t t-foreach="language" t-as="connect">
+                                                            <option t-esc="connect.name" t-att-value="connect.id" />
+                                                        </t>
+                                                    </select>
+                                                </div> -->
+
+                                                <!-- TO DISPLAY THE DEFAULT NAME IN THE SELECTION FIELD USING DEFAULT IN WEBSITE -->
+                                            <label for="h_qualification" class="control-label">Highest Qualification</label>
+                                            <div class="input-group">
+                                                <select name="h_qualification" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                                    <t t-foreach="experience" t-as="connect">
+                                                        <option t-esc="connect.name" t-att-value="connect.id" 
+                                                        />
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <label for="r_qualification" class="control-label">Related Qualification</label>
+                                            <div class="input-group">
+                                                <input type="text" name="r_qualification" id="r_qualification" class="form-control" t-att-value="r_qualification" style="font-size:20px;font-color:black;" />
+                                            </div>
+
+                                            <label for="location" class="control-label">Location Preference</label>
+                                            <div class="input-group">
+                                                <input type="text" name="location" id="location" class="form-control" t-att-value="location" style="font-size:20px;font-color:black;" />
+                                            </div>
+
+                                            <label for="area_of_interest" class="control-label">Area of Interest</label>
+                                            <div class="input-group">
+                                                <input type="text" name="area_of_interest" id="area_of_interest" class="form-control" t-att-value="location" style="font-size:20px;font-color:black;" />
+                                            </div>
+
+                                            <!-- <label for="known_languages" class="control-label">Known Programming Languages </label>
+                                <div class="input-group">
+                                    <select name="known_languages" class="form-control link-style" style="font-size:20px;font-color:black;">
+                                        <t t-foreach="experience" t-as="connect">
+                                            <option t-esc="connect.name" t-att-value="connect.id"/>
+                                        </t>
+                                    </select>  
+                                </div> -->
+
+                                            <!-- <label for="known_languages" class="control-label">Known Programming Languages </label>
+                                <div class="input-group">
+                                <select multiple="multiple" name="known_languages" class="form-control select2" style="font-size:20px;font-color:black;">
+                                        <t t-foreach="languages" t-as="permit">
+                                            <option t-esc="permit.name" t-att-value="permit.id"/> -->
+                                            <!-- <option t-att-value="permit.id">
+                                                        <t t-esc="permit.name"/>
+                                                    </option> -->
+                                            <!-- </t>
+                                        </select>
+                                    </div> -->
+                                            <!-- <label for="strength" class="control-label">Strength</label>
+                                <div class="input-group">
+                                    <input type="text" name="strength" id="strength" class="form-control" t-att-value="strength" style="font-size:20px;font-color:black;"/>
+                                </div>
+                                
+                                <label for="weak" class="control-label">Weakness</label>
+                                <div class="input-group">
+                                    <input type="text" name="weak" id="weak" class="form-control" t-att-value="weak" style="font-size:20px;font-color:black;"/>
+                                </div>  -->
+                                        </div>
+
+                                        <div class="input-group ">
+                                            <button type="object" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Next</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+
+        <record id="company_experience_id" model="website.page">
+            <field name="name">Company Details</field>
+            <field name="type">qweb</field>
+            <field name="url">/company</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.company_experience</field>
+            <field name="arch" type="xml">
+                <t name="Company Details" t-name="colab_management.company_experience">
+                    <t t-call="website.layout">
+                        <t t-set="head">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                            <script type="text/javascript" src="/colab_management/static/src/js/website.js"></script>
+
+                            <script >   
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var currentDate = new Date().toISOString().split('T')[0];
+                                    var from_field = document.getElementById("from_field");
+                                    var to_field = document.getElementById("to_field");
+                                    from_field.setAttribute("max", currentDate);
+                                    to_field.setAttribute("max", currentDate);
+                                });
+                                function GetDays(){
+                                     var date1 = new Date(document.getElementById("from_field").value);
+                                     var date2 = new Date(document.getElementById("to_field").value);
+                                     var Difference_In_Time = date2.getTime() - date1.getTime();
+                                     var Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
+                                     var years = Math.floor(Difference_In_Days / 365);
+                                     var months = Math.floor(Difference_In_Days % 365 / 30);
+                                     var days = Math.floor(Difference_In_Days % 365 % 30);
+                                     return years + "y" +" "+ months + "m" +" "+ days + "d";    
+                                }
+                                function caller(){
+                                    if(document.getElementById("to_field")){
+                                    document.getElementById("years").value=GetDays();
+                                        }  
+                                    }
+                            </script>
+
+<!-- USED FOR SEE THE DATA IN THE CONSOLE -->
+                            <!-- <script>
+
+                                function caller() {
+                                    if (document.getElementById("to_field")) {
+                                        console.log("Calling caller function");
+                                        var calculatedValue = GetDays();
+                                        console.log("Calculated value:", calculatedValue);
+                                        document.getElementById("years").value = calculatedValue;
+                                    }
+                                }
+                            </script> -->
+                            <!-- <script>
+                                function calculateDate() {
+                                    event.preventDefault();
+                                    var startDate = document.getElementById("from_field").value;
+                                    var endDate = document.getElementById("to_field").value;
+                                    var Difference_In_Time = new Date(endDate).getTime() - new Date(startDate).getTime();
+                                    var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+                                    document.getElementById("taxResidencyCalculator").innerHTML = Difference_In_Days;
+                                  }
+                                </script> -->
+                                
+                            
+                            <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                        </t>
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-top: 30px;margin-bottom: 15px;">
+                                 <div class="col-12">
+                                                <h3 style="text-align: center; margin-bottom: 15px;">Experience Status</h3>
+                                            </div>
+                                <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;">
+                                    <form role="form" action="/company/experience" method="POST" style="padding: 40px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        <div class="row">
+                                           
+                                            <div class="col-12" style="padding-left: 0px !important;padding-right: 0px !important;">
+                                                <fieldset style="padding: 0px !important;">
+                                                    <table id="exp_tbl" style="margin-bottom: 20px;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 14%;font-size: 13px;">Company Name</th>
+                                                                <th style="width: 14%;font-size: 13px;">Role in Company</th>
+                                                                <th style="width: 14%;font-size: 13px;">Reason For Change</th>
+                                                                <th style="width: 14%;font-size: 13px;">From</th>
+                                                                <th style="width: 14%;font-size: 13px;">To</th>
+                                                                <th style="width: 14%;font-size: 13px;">Experience</th>
+                                                                <th style="width: 10%;font-size: 13px;">Add/Delete Row</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr name = "information" class="tr_clone">
+
+                                                                <td style="padding-right: 8px;">
+                                                                    <input type="text" class="form-control" name="comp_name" id="comp_name" t-att-value="comp_name" />
+                                                                </td>
+
+                                                                <td style="padding-right: 8px;">
+                                                                    <input type="text" name="role" id="role" class="form-control" t-att-value="role" />
+                                                                </td>
+
+                                                                <td style="padding-right: 8px;">
+                                                                    <input type="text" class="form-control" name="change" t-att-value="change" id="change" />
+                                                                </td>
+                                                                <td style="padding-right: 8px;">
+                                                                    <!-- <input type="date" name="from_field" class="form-control" id="from_field" t-att-value="from_field" required="required" /> -->
+
+                                                                    <input type="date" name="from_field" class="form-control" id="from_field" t-att-value="from_field" required="required" onchange="caller()" />
+                                                                </td>
+
+                                                                <td style="padding-right: 8px;">
+                                                                    <!-- <input type="date" name="to_field" class="form-control" id="to_field" t-att-value="to_field" required="required" /> -->
+
+                                                                    <input type="date" name="to_field" class="form-control" id="to_field" t-att-value="to_field" required="required" onchange="caller()" />
+                                                                </td>
+
+                                                                <!-- DUMMY FIELD -->
+                                                                <!-- <td>
+                                                                    <input type="text" name="sample" class="form-control" id="sample" t-att-value="sample" onchange="testing()"/>
+                                                                </td> -->
+
+
+                                                                <td style="padding-right: 8px;">
+                                                                    <!-- use this for the field make readonly {readonly="readonly"} -->
+                                                                    <input type="text" name="years" style="background: #ff000000 !important;" class="form-control" id="years" t-att-value="years"  />
+                                                                </td>
+                                                                <td class="">
+                                                                    <input type="button" value="Add" class="row-add" />
+                                                                    <input type="button" value="delete" class="del-row" />
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                            </div>
+                                            <label for="last" class="control-label">Last Drawn Salary (Per Annum)</label>
+                                            <div class="input-group">
+                                                <input type="text" name="last" t-att-value="last" id="last"
+                                                    class="form-control" style="font-size:20px;font-color:black;" value="" onkeypress="return checkSpcialChar(event)" />
+                                            </div>
+                                            <label for="salary_expected" class="control-label">Expected Salary</label>
+                                            <div class="input-group">
+                                                <input type="text" name="salary_expected" t-att-value="salary_expected"
+                                                    id="salary_expected" class="form-control" style="font-size:20px;font-color:black;" onkeypress="return checkSpcialChar(event)" />
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group " style="margin-bottom: 0px !important;margin-top: 20px;">
+                                            <button type="object" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Next</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="abroad_willing" model="website.page">
+            <field name="name">Abroad</field>
+            <field name="type">qweb</field>
+            <field name="url">/abroad</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.abroad_willing</field>
+            <field name="arch" type="xml">
+                <t name="application3" t-name="colab_management.abroad_willing">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-top: 30px;margin-bottom: 15px;">
+                                 <center>
+                                            <h3 style="margin-bottom: 15px;">Travel Abroad</h3>
+                                        </center>
+                                        <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;">
+                                    <form role="form" action="/abroad/data" method="POST" style="padding: 40px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                       
+                                        <div class="row">
+                                            <label for="go_abroad" class="control-label">Willing to go Abroad</label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="go_abroad" style="font-size:20px;font-color:black;">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- <div class="col-12">
+                                                <h3 style="text-align: center;">If yes fill the details below</h3>
+                                            </div> -->
+
+                                            <label for="port" class="control-label">Have Passport</label>
+                                            <div class="input-group">
+                                                <select class="form-control" name="port" style="font-size:20px;font-color:black;">
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+
+                                            <label for="pass_number" class="control-label">Passport Number</label>
+                                            <div class="input-group">
+                                                <input type="text" name="pass_number" t-att-value="pass_number" id="pass_number"
+                                                    class="form-control" style="font-size:20px;font-color:black;" />
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group ">
+                                            <button type="object" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Next</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="resume_attachment" model="website.page">
+            <field name="name">Resume</field>
+            <field name="type">qweb</field>
+            <field name="url">/resume</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.resume_attachment</field>
+            <field name="arch" type="xml">
+                <t name="application3" t-name="colab_management.resume_attachment">
+                    <t t-set="head">
+                        <link rel="stylesheet" href="/colab_management/static/src/css/design.css" />
+
+                    </t>
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="oe_structure">
+                                <div class="container" style="margin-top: 30px;margin-bottom: 15px;">
+                                        <center>
+                                            <h1 style="margin-bottom:15px;">Attachments</h1>
+                                        </center>
+                                        <div style="box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;border-radius: 10px;">
+                                    <form role="form" action="/website/resume" method="POST" enctype="multipart/form-data" style="padding: 40px;">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                        
+
+                                        <label for="res" class="control-label">Attach CV[Note:File size not exceed than 5MB]</label>
+                                        <div class="input-group">
+                                            <input type="file" name="res" id="res" class="form-control" t-att-value="res" style="font-size:20px;font-color:black;padding: 0px !important;" required="required" />
+                                        </div>
+                                        <br />
+
+<!-- UPLOAD MANY2MANY IMAGES OR DOCUMENTS OR VIDEOS
+HINT : i)   multiple="true" accept="image/*,application/pdf,video/*" THIS IS IMPORTANT FOR MANY2MANY IMAGES 
+       ii)  SELECT MORE THAN ONE IMAGES BY PRESSING crtl+CLICK TO SELECT MULTIPLE RECORDS  -->
+
+
+                                    <label for="att" class="control-label">Any Other Documents[Note:File size not exceed than 5MB,More Than One Documents Accepted]</label>
+                                        <div class="input-group">
+                                            <input type="file" name="att" id="att" class="form-control" t-att-value="att" style="font-size:20px;font-color:black;padding: 0px !important;" multiple="true" accept="image/*,application/pdf,video/*"/>
+                                        </div>
+
+
+
+
+
+
+                                        <!-- <label for="other" class="control-label">Other Certificate</label>
+                                    <div class="input-group">
+                                        <input type="file" name="other" id="other" class="form-control"  t-att-value="other" style="font-size:20px;font-color:black;" required="required"/>
+                                    </div> -->
+
+                                        <!-- <a t-attf-href="'/report/pdf/colab_management.candidate_summary/%s' %i . id">
+                                        <button type="button" class="btn btn-primary btn-md o_website_form_send">Print pdf</button>
+                                    </a> -->
+
+                                        <!-- <a t-att-href="/report/new/">
+                                        <button type="button" class="btn btn-primary btn-md ">Print Report</button>
+                                      </a> -->
+
+                                        <div class="input-group ">
+                                            <button type="submit" style="background-color: #c42329;color: white;font-size: 22px;font-weight: 600;border: 0px;width: 100%;max-width: 400px;margin: auto;" class="form-control">Submit</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+
+        <record id="thank_you" model="website.page">
+            <field name="name">Thanks</field>
+            <field name="type">qweb</field>
+            <field name="url">/applied-thank-you</field>
+            <field name="website_published">True</field>
+            <field name="key">colab_management.thank_you</field>
+            <field name="arch" type="xml">
+                <t name="Thanks" t-name="colab_management.thank_you">
+                    <t t-call="website.layout">
+                        <div id="wrap">
+                            <div class="container">
+                                <center>
+                                    <i class="fa fa-thumbs-up" style="font-size:100px;color:green" />
+                                </center>
+                                <h1>Thank You!</h1>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-success" role="status">
+                                            <p>
+                                                Your job application has been successfully registered,we will get back to you soon
+                                            </p>
+                                            <a t-attf-href="'/report/pdf/colab_management.candidate_summary/%s' % i.id">
+                                                <button type="button" class="btn btn-primary btn-md o_website_form_send">Print pdf</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+
+<!-- Image epreview in Website
+
+
+
+JS
+
+
+$(function() {
+    // Multiple images preview in browser
+    var imagesPreview = function(input, placeToInsertImagePreview) {
+
+        if (input.files) {
+            var filesAmount = input.files.length;
+
+            for (i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function(event) {
+                    $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+
+    };
+
+    $('#gallery-photo-add').on('change', function() {
+        imagesPreview(this, 'div.gallery');
+    });
+});
+
+
+
+xml
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<input type="file" multiple id="gallery-photo-add">
+<div class="gallery"></div> -->

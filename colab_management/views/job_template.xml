@@ -1,0 +1,131 @@
+<odoo>
+    <record id="job_resume" model="ir.ui.view">
+        <field name="name">hr.job.inherited</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"></field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//group[@name='recruitment']" position="replace">
+           </xpath> 
+           <!-- <xpath expr="//button[@name='all_application_count']" position="attributes">            
+            <attribute name="invisible">1</attribute>        
+        </xpath>  -->
+        <!-- <xpath expr="//div[@name='button_box']" position="attributes">
+            <attribute name="invisible">1</attribute>
+       </xpath> -->
+       <!-- <xpath expr="//field[@name='state']" position="after">
+            <div class="oe_button_box" name="button_box">
+                <button name="company_job_application" type="object" class="oe_stat_button" icon="fa-file-text">
+                    <field name="company_application" string="Application" widget="statinfo"/>
+                </button>
+            </div>
+        </xpath> -->
+           
+            <xpath expr="//div[@class='oe_title']" position="before">
+                <label for="client"></label>
+                <h1><field name='client'/></h1>
+            </xpath>
+            
+            
+            <xpath expr="//field[@name='description']" position="after">
+            <group>
+                <group>
+                    <field name="experience" placeholder="Eg: 1-2 years"></field>
+                    <field name="salary" placeholder="Eg: 2,00,000-3,00,000 PA"/>
+                </group>
+                <group>
+                    <field name="country"/>
+                    <field name="location"/>
+                    <field name="skills"/>
+                </group>
+            </group>
+            </xpath>
+            <!-- <xpath expr="//field[@name='no_of_recruitment']" position="after">
+                <field name="no_of_hired_employee"/>
+                <field name="application_sended"/>
+                <field name="application_received"/>
+            </xpath> -->
+            <!-- <field name="department_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="address_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field> -->
+
+
+            
+            <!-- INVISIBLED THE FIELDS-->
+            <!-- <xpath expr="//button[@name='599']" position="replace">
+            </xpath> -->
+            <xpath expr="//button[@name='action_get_attachment_tree_view']" position="replace">
+            </xpath>
+<!--USE THESE BELOW TWO FOR DIFFERENT BUTTONS  -->
+            <xpath expr="//button[@class='oe_stat_button']" position="replace">
+            </xpath> 
+            <xpath expr="//button[@class='oe_stat_button']" position="replace">
+            </xpath>
+            <!-- <xpath expr="//field[@name='is_published']" position="attributes">
+                <attributes name="invisible">1</attributes>
+            </xpath> -->
+            <!-- <xpath expr="//field[@name='is_published']" position="replace">
+            </xpath>              -->
+            <!-- <xpath expr="//button[@class='oe_stat_button']" position="replace">
+            </xpath>
+            <xpath expr="//button[@class='oe_stat_button']" position="replace">
+            </xpath> -->
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <button name="application_type" type="object"   icon="fa-file-text" >
+                            <field name="total_application" string="Application" widget="statinfo" />
+                    </button>
+                    <button name="total_selected_candidate" type="object"   icon="fa-file-text" >
+                            <field name="candidate_selected" string="Selected" widget="statinfo" />
+                    </button>
+                </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.menu" id="hr_recruitment.menu_hr_job_position_config">
+        <field name="name">Job Description</field>
+    </record>
+    <record model="ir.ui.menu" id="hr_recruitment.menu_hr_job_position">
+        <field name="name">By Job Description</field>
+    </record>
+
+<!-- INVISIBLE THE FIELD IN THE TREE VIEW -->
+                <record id="add_number" model="ir.ui.view">
+                    <field name="name">hr.job.inherited</field>
+                    <field name="model">hr.job</field>
+                    <field name="inherit_id" ref="hr.view_hr_job_tree"></field>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='no_of_recruitment']" position="replace">
+                        </xpath>
+                        <xpath expr="//field[@name='no_of_employee']" position="replace">
+                        </xpath>
+                        <xpath expr="//field[@name='name']" position="after">
+                            <field name="no_of_recruitment"/>
+                        </xpath>
+                        <xpath expr="//field[@name='expected_employees']" position="replace">
+                       </xpath>
+                       <xpath expr="//field[@name='department_id']" position="replace">
+                       </xpath>
+                       <!-- <xpath expr="//field[@name='website_id']" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                       </xpath> -->
+                       <!-- <field name="website_id" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </field> -->
+                    </field>
+                </record>
+                <!-- <record id="add_number" model="ir.ui.view">
+                    <field name="name">hr.job.inherited</field>
+                    <field name="model">hr.job</field>
+                    <field name="inherit_id" ref="hr.view_hr_job_tree"></field>
+                    <field name="arch" type="xml">
+                        <field name="website_id" position="attributes">
+                            <attribute name="invisible">1</attribute>
+                        </field>
+                     </field>
+                </record>    -->
+
+    </odoo>
+    

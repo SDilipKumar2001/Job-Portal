@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+
+  
+
+     <record id="group_job_desc_mains" model="res.groups">
+        <field name="name"> New JD</field>
+        <!-- <field name="category_id" ref="module_hr_job" /> -->
+    </record>
+    <record model="ir.rule" id="job_allocations">
+        <field name="name">Recruiter See Only his Job Positions</field>
+        <field name="model_id" ref="model_hr_job"></field>
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('colab_management.group_job_desc_mains'))]"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="0"/>
+    </record>
+
+<!-- GIVE USER ACCESS TO THE PORTAL USER TO SENF DEAULT VALE TO THE SELECTION FIELD AS {portal i.e 9}-->
+    <record id="access_model_res_users" model="ir.rule">
+        <field name="name">Res Users</field>
+        <field name="model_id" ref="model_res_users"/>
+        <field name="groups" eval="[(4, ref('base.group_public')), (4, ref('base.group_portal'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

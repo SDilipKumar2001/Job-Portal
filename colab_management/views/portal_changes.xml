@@ -1,0 +1,152 @@
+<odoo>
+
+
+    <template id="portal_my_home_job" name="Portal My Home:Applications" customize_show="True" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Application Status</t>
+                <t t-set="url" t-value="'/my/job_portal'"/>
+                <t t-set="placeholder_count" t-value="'count_job'"/>
+            </t>
+        </xpath>
+    </template>
+<!-- THIS TEMPLATE IS USED TO DISPLAY THE NAME IN THE ABOVE MENU NEAR THE HOME BUTTON -->
+    <template id="portal_my_home_menu_rfq" name="Portal Layout : RFQ menu entries" inherit_id="portal.portal_breadcrumbs" priority="20">
+      <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+          <li t-if="page_name == 'job'" t-attf-class="breadcrumb-item #{'active' if not job else ''}">
+              <a t-if = "job" t-attf-href = "/my/vendor_portal?{{keep_query()}}">RFQ</a>
+              <t t-else=''>Application Status</t>
+          </li>
+          <li t-if="job" class="breadcrumb-item-active">
+              <t t-esc="job.name"></t>
+          </li>
+      </xpath>
+  </template>
+
+    <template id="portal_job_application" name="Application Status">
+        <t t-call="portal.portal_layout">
+          <t t-set="breadcrumbs_searchbar" t-value="True"/>
+          <t t-call="portal.portal_searchbar">
+            <t t-set="title">Applications Status</t>
+        </t>        
+        <t t-if="not jobs">
+            <p>There is no records</p>   
+        </t>
+          <t t-if="jobs" t-call="portal.portal_table">
+            <thead>
+              <tr class="active">
+                <th class="text-right">Applicant's Name 
+                    <!-- <span class="text-right">Applicant's Name</span> -->
+                </th>
+                <th class="text-right">DOB</th>
+                <th class="text-right">Gender</th>
+                <th class="text-right">Recruiter</th>
+                <th class="text-right">E-mail</th>
+                <th class="text-right">Stage</th>
+                <th class="text-right">PDF</th>
+              </tr>
+            </thead>
+                <t t-foreach="jobs" t-as="job">
+                  <tr>
+                     <!--<td>
+                     <a t-att-href="jobs.get_portal_url()">
+                        <td class="text-right"><span t-field="job.name"/></td>
+                      </a> 
+                    </td> -->
+<!--THIS IS USED TO CREATE THE LINK TO THE NEXT PAGEIN PORTAL  -->
+                    <td class="text-right">
+                      <t t-esc="job.name"/>
+                    </td>
+
+                    <!-- <td class="text-right">
+                        <span t-field="job.name"/>
+                      </td> -->
+                     <td class="text-right">
+                        <span t-field="job.dob"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="job.gender"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="job.user_id"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="job.email_from"/>
+                      </td>
+                      <td style="padding-left:80px;">
+                      <center>
+                        <!-- <span t-field="job.stage_id" /> -->
+                        <span class="badge badge-pill badge-secondary"><span t-field="job.stage_id" /></span>
+                        <!-- COLOR FOR THE TAGS IN PORTAL REFER THIS LINK-->
+                        <!-- https://getbootstrap.com/docs/4.0/components/badge/ -->
+                      </center>
+                      </td>
+<!-- PRINT THE PDF WITHOUT USING PYTHON USE THIS ITS SIMPLE METHOD-->
+                      <!-- <a t-attf-href="/report/pdf/colab_management.candidate_summary/#{job.id}">
+                          <button type="button" class="btn btn-primary btn-md o_website_form_send">Print PDF</button>
+                      </a> -->
+                      <td class="text-right">
+                        <a t-attf-href="/candidate/pdf/#{job.name}/#{job.id}">
+                            <button type="button" class="btn btn-primary btn-md o_website_form_send">Print PDF</button>
+                        </a>
+                      </td>
+                    <!-- </td> -->
+                </tr>
+            </t>
+          </t>
+        </t>
+      </template>
+    <!-- <template id="portal_my_home_job" name="Portal My Home:Applications" customize_show="True" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Job Application</t>
+                <t t-set="url" t-value="'/my/job_portal'"/>
+                <t t-set="placeholder_count" t-value="'count_job'"/>
+            </t>
+        </xpath>
+      </template>
+      <template id="portal_job_application" name="My Job Application">
+        <t t-call="portal.portal_layout">
+          <t t-set="breadcrumbs_searchbar" t-value="True"/>
+          <t t-call="portal.portal_searchbar">
+            <t t-set="title">Job Applications</t>
+        </t>           
+          <t t-if="applications" t-call="portal.portal_table">
+            <thead>
+              <tr class="active">
+                <th> 
+                    <span class="text-right">Applicant's Name</span>
+                </th>
+                <th class="text-right">Subject/Application Name</th>
+                <th class="text-center"></th>
+                <th class="text-right">Recruiter</th>
+                <th class="text-right">E-mail</th>
+              </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="applications" t-as="job">
+                  <tr>
+                     <td>
+                     <a t-att-href="applications.get_portal_url()">
+                        <td class="text-right"><span t-field="job.partner_name"/></td>
+                      </a> 
+                     <td class="text-right">
+                        <span t-field="job.name"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="job.user_id"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-field="job.email_from"/>
+                      </td>
+                      <td class="text-center">
+                        <span class="badge badge-pill badge-secondary"><span t-field="job.state" /></span>
+                      </td>
+                    </td>
+                </tr>
+            </t>
+          </tbody>
+          </t>
+        </t>
+      </template> -->
+</odoo>

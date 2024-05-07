@@ -1,0 +1,244 @@
+<odoo>
+    <!-- inherit button in hr job model -->
+    <record id="hr_recruitment.action_hr_job_config" model="ir.actions.act_window"> 
+        <field name="name">JD</field>     
+        <field name="res_model">hr.job</field>   
+        <field name="view_mode">graph,pivot</field>    
+        </record>
+             
+    <!-- ADD NEW FIELD USING INHERIT  -->
+    <record id="employee_resume" model="ir.ui.view">
+        <field name="name">hr.applicant.inherited</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='availability']" position="after">
+                <field name='res' widget="many2many_binary"/>
+                <field name="other" widget="many2many_binary"/>
+                
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- <record id="update_exp" model="ir.ui.view">
+        <field name="name">hr.applicant.inherited</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='net']" position="after">
+               
+            </xpath>
+        </field>
+    </record> -->
+    
+    <record id="hr_applicant_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.applicant.inherited</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='priority']" position="replace">
+                <field name='message' widget="priority"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="required">False</attribute>
+            </xpath>
+            <!-- xpath for remove widget sms symbol -->
+            <xpath expr="//field[@name='partner_phone']" position="replace">
+                <field name='partner_phone' />
+            </xpath>
+            <xpath expr="//field[@name='partner_mobile']" position="replace">
+                <field name='partner_mobile'/>
+            </xpath>
+        </field>
+    </record>
+
+
+<!-- MAKE CHANGES IN KANBAN VIEW (REPLACE)-->
+<record id="job_kanban_inherit" model="ir.ui.view">
+    <field name="name">hr.applicant.inherited</field>
+    <field name="model">hr.applicant</field>
+    <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+    <field name="arch" type="xml">
+        <field name="partner_name" position="after">
+            <field name="message"/>
+        </field>
+        <field name="job_id" position="after">
+            <field name="last"/>
+        </field>
+        <field name="last" position="after">
+            <field name="address"/>
+        </field>
+        <field name="address" position="after">
+            <field name="gender"/>
+        </field>
+        <field name="gender" position="after">
+            <field name="cal_exp"/>
+        </field>
+
+        <xpath expr="//div[@class='o_kanban_record_subtitle']" position="replace">
+            <li><field name="job_id" /></li>
+            <li><field name="gender"/></li>
+            <li><field name="address" ></field></li>
+            <field name="currency_id" invisible="1" />
+            <li><field name="last" nolabel="1"  widget="monetary" options="{'currency_field' : 'currency_id'}"/></li>
+            <li><field name="expected" nolabel="1"  widget="monetary" options="{'currency_field' : 'currency_id'}"/></li>
+            <li><field name="cal_exp"/></li>
+        </xpath>
+        
+        <xpath expr="//div[@class='o_kanban_record_bottom mt4']" position="replace">
+            <field name="message" widget="priority"/>
+        </xpath> 
+        <xpath expr="//field[@name='categ_ids']" position="replace">
+        </xpath> 
+
+    </field>
+</record>
+
+
+
+
+
+<!-- INHERIT FIELDS IN RECRUITMENT APP IN (hr.applicant)model  -->
+<record id="client_id" model="ir.ui.view">
+        <field name="name">hr.applicant.inheritance</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="before">
+                <div  class="oe_title">
+                    <h1><field name="reference_no" /></h1>
+                </div>
+            <xpath expr="//field[@name='reference_no']" position="after">
+                        <label for="client" class="oe_edit_only"/>
+                        <h1><field name="client"/></h1>
+                </xpath>
+            </xpath>
+            <!-- <xpath expr="//div[@class='oe_title']" position="before">
+                <div  class="oe_title">
+                    <label for="client" class="oe_edit_only"/>
+                    <h1><field name="client"/></h1>
+                </div>
+            </xpath> -->
+            <xpath expr="//field[@name='partner_name']" position="after">
+                    <label class="oe_edit_only" for="exp"/>
+                    <field name="exp" widget="radio"/>
+                    <group string="Candidate Details"></group>
+            </xpath>
+                <xpath expr="//field[@name='email_from']" position="before">
+                    <field name="gender"></field>
+                    <field name="dob" ></field>
+                    <field name="whats"></field>
+                    <field name="address"></field>
+                </xpath>
+
+
+
+<!-- INVISIBLE THE FIELD TYPE ONLY NOT THE LABEL -->
+
+                <!-- <xpath expr="//div[@class='o_row']" position="replace">
+                </xpath> -->
+                <xpath expr="//label[@for='salary_expected']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//label[@for='salary_proposed']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <field name="salary_expected" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="salary_proposed" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="salary_proposed_extra" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="salary_expected_extra" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+<!-- INVISIBLE THE FIELDS IN THE MODEL(hr.applicant) -->
+                <field name="department_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="partner_name" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="email_cc" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="availability" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="type_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+<!-- SET REQUIRED TO THE EXISTING FIELD-->
+                <field name="email_from" position="attributes">
+                    <attribute name="required">True</attribute>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="required">True</attribute>
+                </field>
+                <field name="partner_phone" position="attributes">
+                    <attribute name="required">True</attribute>
+                </field>
+<!-- ADD THE FIELDS IN THE MODEL(hr.applicant) -->
+                <xpath expr="//field[@name='availability']" position="before">
+                    <field name="h_qualification"></field>
+                    <field name="r_qualification"></field>
+                    <field name="location"></field>
+                    <field name="area_of_interest"/>
+                    <field name="known_languages" widget="many2many_tags" />
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="go_abroad"></field>
+                    <field name="port"></field>
+                    <field name="pass_number"/>
+                </xpath> 
+<!-- THIS IS USED WHEN THE RADIO BUTTON IS SELECTED THEY SHOW SOME FIELDS -->
+                <!-- <xpath expr="//field[@name='other']" position="after">
+                    <field name="exp" widget="radio"/>  
+                     <field name="field1" attrs="{'invisible': [('exp','=', 'fresher')]}" />
+                     <field name="field2" attrs="{'invisible': [('exp','=', 'fresher')]}" />
+                     <field name="field3" attrs="{'invisible': [('exp','=', 'fresher')]}" />
+                     <field name="field4" attrs="{'invisible': [('exp','=', 'fresher')]}"/>
+                </xpath> -->
+                
+                <xpath expr="//field[@name='h_qualification']" position="before">
+                    <field name="currency_id" invisible="1"></field>
+                    <field name="expected"/>
+                    <field name="last"></field>
+                </xpath>   
+                <xpath expr="//field[@name='description']" position="after">
+                    <notebook >
+                        <page name='Candidate Detail' string='Experience'>
+                            <field name="information">        
+                                <tree editable="bottom" >
+                                    <field name="comp_name"/>
+                                    <field name="role"/>
+                                    <field name="change"/>
+                                    <field name="from_field" options="{'datepicker':{'maxDate': 'now'}}" />
+                                    <field name="to_field" options="{'datepicker':{'maxDate': 'now'}}"/>
+                                    <field name="years"/>  
+                                    <!-- <field name="calculation" />  -->
+                                    <field name="calculation" invisible="1"/>                             
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="net" invisible="1"/>
+                        <!-- <field name="net" /> -->
+                        <field name='cal_exp'/>
+                    </group>
+                   
+                </xpath> 
+                
+        </field>
+        </record> 
+
+       
+</odoo>

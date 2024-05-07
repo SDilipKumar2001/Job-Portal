@@ -1,0 +1,836 @@
+Compare two string and change the third field(many2one) according to the two conditions.
+
+product_template.py
+ _inherit = 'stock.picking'
+
+@api.model
+    def create(self,vals):
+        result = super(StockPickFile, self).create(vals)
+        zip_partner = result.partner_id.zip
+        orm_1 = self.env['stock.location'].search([('pincode','=',zip_partner)])
+        for rec in orm_1:
+            if rec:      
+                local = rec.id
+                result.location_dest_id=local
+            else:
+                result.location_dest_id=8
+        return result
+
+StockpickFile ==> Class Name
+product.template(model)
+sale.order(model)
+product_template.py
+
+
+onchanging process held at one2many field so we put the condition self.product_id.id == False:
+and taking the expired date,lot number and marketer_name automatically when the product is selected.
+ 
+ _inherit = 'sale.order.line'
+
+related is used only the field is Many2one i.e(batch_no)
+expiration_date(fied_name) present in the model='stock.production.lot'
+
+batch_no = fields.Many2one('stock.production.lot',string="Batch No")
+expiry_date = fields.Datetime(string="Expiry date",related='batch_no.expiration_date')
+
+@api.onchange('product_id')
+    def change(self):
+        current_date = datetime.today()
+        if self.product_id.id == False:
+            pass
+        else:
+            orm_1 = self.env['stock.production.lot'].search([('product_id','=',self.product_id.id),('expiration_date','>',current_date)],order="create_date asc")
+            marketer = self.product_id.Marketers
+            main = marketer.id
+            self.marketer_name = main
+            list_new=[]
+            for rec in orm_1:
+                if rec.product_qty != 0:
+                    list_new.append(rec.id)
+                else:
+                    pass
+            maintain = len(list_new)
+            if maintain > 0:
+                self.batch_no = list_new[0]
+            else:
+                self.batch_no = False
+
+in this onchange when the product is selected the Marketers(field_name),Lot_number(field_name),expiration_date(field_name) is automatically filled.
+
+_inherit = 'stock.move'
+
+@api.onchange('product_id')
+    def validity(self):
+        current_date = datetime.today()
+        if self.product_id.id == False:
+            pass
+        else:  
+            marketer = self.product_id.Marketers
+            main = marketer.id
+            self.Marketers = main
+            orm_1 = self.env['stock.production.lot'].search([('product_id','=',self.product_id.id),('expiration_date','>',current_date)],order="create_date asc")
+            list_new=[]
+            list_exp=[]
+            for rec in orm_1:
+                if rec.product_qty != 0:
+                    list_new.append(rec.name)
+                    list_exp.append(rec.expiration_date)
+                else:
+                    pass
+            maintain = len(list_new)
+            if maintain > 0:
+                self.lot_name = list_new[0]
+                self.expiration_date = list_exp[0]
+            else:
+                self.lot_name = False 
+                self.expiration_date = None
+
+
+{RECENT CREATED}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Model Name:
+	{'sale.order.line'}
+
+ADD releated TO THE expiry_date FIELD:
+expiry_date = fields.Datetime(string="Expiry date",related='batch_no.expiration_date')
+
+FUNCTION:
+@api.onchange('product_id')
+    def change(self):
+        current_date = datetime.today()
+        if self.product_id.id == False:
+            pass
+        else:
+            orm_1 = self.env['stock.production.lot'].search([('product_id','=',self.product_id.id),('expiration_date','>',current_date)],order="create_date asc")
+            marketer = self.product_id.Marketers
+            main = marketer.id
+            self.marketer_name = main
+            list_new=[]
+            for rec in orm_1:
+                if rec.product_qty != 0:
+                    list_new.append(rec.id)
+                else:
+                    pass
+            maintain = len(list_new)
+            if maintain > 0:
+                self.batch_no = list_new[0]
+            else:
+                self.batch_no = False
+
+Model Name:
+	{'stock.move'}
+
+FUNCTION:
+@api.onchange('product_id')
+def validity(self):
+	current_date = datetime.today()
+	if self.product_id.id == False:
+            pass
+        else:  
+            marketer = self.product_id.Marketers
+            main = marketer.id
+            self.Marketers = main
+            orm_1 = self.env['stock.production.lot'].search([('product_id','=',self.product_id.id),('expiration_date','>',current_date)],order="create_date asc")
+            list_new=[]
+            list_exp=[]
+            for rec in orm_1:
+                if rec.product_qty != 0:
+                    list_new.append(rec.name)
+                    list_exp.append(rec.expiration_date)
+                else:
+                    pass
+            maintain = len(list_new)
+            if maintain > 0:
+                self.lot_name = list_new[0]
+                self.expiration_date = list_exp[0]
+            else:
+                self.lot_name = False 
+                self.expiration_date = None
+
+Model Name:
+	{stock.picking}
+
+FUNCTION:
+@api.model
+    def create(self,vals):
+        result = super(StockPickFile, self).create(vals)
+        zip_partner = result.partner_id.zip
+        orm_1 = self.env['stock.location'].search([('pincode','=',zip_partner)])
+        for rec in orm_1:
+            if rec:      
+                local = rec.id
+                result.location_dest_id=local
+            else:
+                result.location_dest_id=8
+        return result
+
+
+@api.onchange('validity_date')
+    def manipulate(self):
+        list_demo = []
+        for i in self:
+            for rec in i.order_line:
+                list_demo.append(rec.marketer_name)
+        # raise ValidationError(list_demo)
+        orm = self.env['stock.picking'].search([])
+        for i in orm:
+            for rec in i.move_ids_without_package
+
+
+orm = self.env['sale.order'].create({'name':'karnan'})
+orm has object so we must put .id
+link= self.env['sale.order'].search([])
+link has number id(1)
+in that link we use all the wanted fields link.name,link.webpage_ids
+
+
+
+
+
+
+
+
+
+
+
+{cus_review.py:}
+
+model :customer.review
+satisfy = fields.Selection([('appr','Approved'),('unappr','Unapproved')],string="Status") 
+
+
+model :product.template
+over_all = fields.Float(string="Overall Rating",compute="contains")
+
+    @api.depends('reviewer_line_ids.rating')
+    def contains(self):
+        rating = 0
+        count = 0 
+        for rec in self:
+            for ids in rec.reviewer_line_ids:
+                rating += ids.rating
+                count += 1
+            if count != 0:   
+                rec.over_all = rating/count
+
+{cus_review.xml:}
+product.template
+<field name="satisfy"/>
+
+(product_template.xml:)
+
+<record id="product_template_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.changes</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='meta_keyword']" position="after">
+                <field name="over_all"/>
+            </xpath>
+        </field>
+        </record>
+
+RECENT:
+{scm_order.py}
+
+from odoo import models,api,fields
+from odoo.exceptions import ValidationError
+
+class Supplier(models.Model):
+    _name = 'supplier.goods'
+    _rec_name = 'partner_id'
+
+    waybill = fields.Char(string="Waybill")
+    partner_id = fields.Many2one('res.partner',string="Client Name",domain="[('marketpalce', '=', 'b2b')]")
+    location = fields.Char(string="Client Location")
+    order = fields.Many2one('sale.order',string="Order Number")
+    m_date = fields.Datetime(string="Manifest Date")
+    p_date = fields.Datetime(string="Pickup Date")
+    client_date = fields.Datetime(string="Client Pickup Date")
+    status = fields.Selection([('inprog','Inprogress'),('deli','Delivered'),('not_deli', 'Not Delivered'),],string="Current Status")
+    cur_status = fields.Selection([('deli','Delivered'),('not_deli', 'Not Delivered')],string="Status Type")
+    pin = fields.Char(string="PIN")
+    city = fields.Char(string="City")
+    state = fields.Many2one('res.country.state',string="State")
+    package = fields.Selection([('pre','Pre-paid'),('post','Post-paid')],string="Package Type")
+    dis_center = fields.Many2one('stock.location',string="Dispatch Center")
+    dis_count = fields.Integer(string="Dispatch Count")
+    first_date = fields.Datetime(string="First Dispatch Date")
+    last_date = fields.Datetime(string="Last Dispatch Date")
+    count = fields.Integer(string="Attempt Count")
+    first_attempt = fields.Datetime(string="First Attempt Date") 
+    last_attempt = fields.Datetime(string="Last Attempt Date") 
+    prom_data = fields.Datetime(string="Promise Date")
+    last_location = fields.Many2one('stock.location',string="Current/Last Scan Location")
+    last_scan_date = fields.Datetime(string="Current/Last Scan Date")
+    last_scan_remark = fields.Char(string="Current/Last Scan Remarks")
+    delivery_date = fields.Datetime(string="Delivered Date")
+    last_NSL = fields.Char(string="Current/Last NSL")
+    first_return = fields.Datetime(string="First Return Date")
+    return_dispatch = fields.Integer(string="Return Dispatch Count")
+    first_return_dispatch = fields.Datetime(string="First Return Dispatch Date")
+    return_promise = fields.Datetime(string="Return Promise Date")
+    rto_delivery_date = fields.Datetime(string="RTO/DTO Delivered Date")
+    address_valid = fields.Selection([('valid','Valid Address'),('invalid','Invalid Address')],string="Address Invalid")
+    valid = fields.Selection([('yes','Yes'),('no','No')],string="Consignee Valid")
+
+    @api.onchange('partner_id')
+    def customer(self):
+        self.pin = self.partner_id.zip
+        self.city = self.partner_id.city
+        self.state = self.partner_id.state_id
+
+    # USED TO CLEAR THE ENTIRE RECORDS/DATAS IN THE MODEL
+    @api.onchange('partner_id')
+    def customer(self):
+        main = self.env['product.supplierinfo'].search([])
+        main.unlink()
+
+# class modelinherit(models.Model):
+#     _inherit = "product.supplierinfo"
+#     name = fields.Char(String="Display Name")
+#     @api.create()
+#     def _get_current_login_user(self):
+#         user_obj = self.env['res.users'].search([])
+#         for user_login in user_obj:
+#             current_login= self.env.user
+#             if user_login == current_login:
+#                 # raise ValidationError(current_login)
+#                 self.name = current_login.name
+
+class modelinherit(models.Model):
+    _inherit = "product.supplierinfo"
+    #demo = fields.Many2one('res.users',readonly=False,default=lambda self: self.env.user)
+    
+    {# TO GET THE CURRENT USER }
+    @api.model
+    def create(self,vals):
+        user = self.env.user
+        valr = self.env['res.users'].search([('id','=',user.id)])
+        get_partner = valr.partner_id.id
+        vals['name'] = get_partner
+        result = super(modelinherit, self).create(vals)
+        return result
+
+    {#TO COMPARE THE FIELD DATA FILLED IN THE 1ST FIELD AND SAVE THE SAME DATA IN THE 2ND FIELD}
+    @api.onchange('product_tmpl_id')
+    def demo_change(self):
+        orm = self.env['product.product'].search([('product_tmpl_id','=',self.product_tmpl_id.id)])
+        self.product_id = orm.id
+
+
+    # name = fields.Char(String="Name")
+    # @api.model
+    # def create(self,vals):
+    #     result = super(modelinherit, self).create(vals)
+    #     current_login= self.env.user
+    #     result.name = current_login.name
+    #     return result
+    
+    # @api.depends()
+    # def _get_current_login_user(self):
+    #     # user_obj = self.env['res.users'].search([])
+    #     # for user_login in user_obj:
+    #     #     current_login= self.env.user
+    #     #     if user_login == current_login:
+    #     #         raise ValidationError(current_login)
+    #     self.name = self.create_uid.name
+
+# class modelinherit(models.Model):
+#     _inherit = "product.supplierinfo"
+#     name = fields.Many2one('res.users',readonly=True,default=lambda self: self.env.user)
+    
+    # @api.depends('name')
+    # def create(self):
+    #     user_obj = self.env.user
+    #     self.name = user_obj.name
+
+# class inherited(models.Model):
+#     _inherit = "product.supplierinfo"
+#     name = fields.Many2one('res.users',readonly=True,default=lambda self: self.env.user)
+#     @api.model()
+#     def create(self):
+#             user_obj = self.env['res.users'].search([])
+#             for user_login in user_obj:
+#                 current_login= self.env.user
+#                 if user_login == current_login:
+#                     self.name = current_login.name
+
+
+{pincode_map.py:}
+from odoo import api,fields,models
+
+class warehouse_masters(models.Model):
+    _name="pincode.map"
+    _rec_name = "warehouse_pin"
+    warehouse_pin = fields.Char(string="Warehouse Pincode")
+    customer_pin = fields.Char(string="Customer Pincode")
+    tat_time = fields.Datetime(string="TAT Time")
+    service = fields.Selection([('enable', 'Enable'), ('disable', 'Disable')],string ="Service")
+
+security:
+{menu_hide.xml}
+
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+    <record id="in_vendor_access_verify" model="res.groups">
+        <field name="name">Vendor Access 1st Menu</field>
+    </record>
+    <record model="ir.ui.menu" id="product_medical.menu_verify">
+        <field name="groups_id" eval="[(6,0,[ref('product_medical.in_vendor_access_verify')])]"/>
+    </record>
+
+
+    <record id="in_vendor_access_confirm" model="res.groups">
+        <field name="name">Vendor Access 2nd Menu</field>
+    </record>
+
+    <record model="ir.ui.menu" id="product_medical.menu_confirm">
+        <field name="groups_id" eval="[(6,0,[ref('product_medical.in_vendor_access_confirm')])]"/>
+    </record>
+
+    <record id="in_vendor_access_confirmed" model="res.groups">
+        <field name="name">Vendor Access 3rd Menu</field>
+    </record>
+
+    <record model="ir.ui.menu" id="product_medical.menu_confirmed">
+        <field name="groups_id" eval="[(6,0,[ref('product_medical.in_vendor_access_confirmed')])]"/>
+    </record>
+
+    <record id="in_vendor_access_cancelled" model="res.groups">
+        <field name="name">Vendor Access 4th Menu</field>
+    </record>
+
+    <record model="ir.ui.menu" id="product_medical.menu_cancelled">
+        <field name="groups_id" eval="[(6,0,[ref('product_medical.in_vendor_access_cancelled')])]"/>
+    </record>
+
+</data>
+</odoo>
+
+{vms_access.xml}
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <record id="group_vendors_user" model="res.groups">
+        <field name="name">vendor</field>
+    </record>
+    <record model="ir.rule" id="vendors_separate_users">
+        <field name="name">Vendor Access</field>
+        <field name="model_id" ref="model_product_supplierinfo"></field>
+        <field name="domain_force">[('name','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('product_medical.group_vendors_user'))]"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+    <record id="group_vendors_po_access" model="res.groups">
+        <field name="name">vendor po access</field>
+    </record>
+    <record model="ir.rule" id="vendors_po_status_use">
+        <field name="name">Vendor Access for purchase order</field>
+        <field name="model_id" ref="model_purchase_order"></field>
+        <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('product_medical.group_vendors_po_access'))]"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record> 
+    <record id="group_vendors_product_mapping_access" model="res.groups">
+        <field name="name">vendor product mapping</field>
+    </record>
+    <record model="ir.rule" id="vendors_product_mapping">
+        <field name="name">Vendor Access  for Product Mapping</field>
+        <field name="model_id" ref="model_product_mapping"></field>
+        <field name="domain_force">[('name','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('product_medical.group_vendors_product_mapping_access'))]"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+     <record id="group_vendors_po_status_access" model="res.groups">
+        <field name="name">Vendor Po Status</field>
+    </record>
+    <record model="ir.rule" id="vendors_po_status">
+        <field name="name">Vendor Access  for Po Status</field>
+        <field name="model_id" ref="model_po_status"></field>
+        <field name="domain_force">[('supplier_name','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('product_medical.group_vendors_po_status_access'))]"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="perm_read" eval="1"/>
+    </record>
+</odoo>
+
+views:
+{pincode_map.xml}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="warehouse_code" model="ir.ui.view">
+            <field name="name">pincode.map.tree</field>
+            <field name="model">pincode.map</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="warehouse_pin"/>
+                    <field name="customer_pin"/>
+                    <field name="tat_time"/>
+                    <field name="service"/>
+                </tree>
+                </field>
+        </record>
+        <record id="warehouse_form" model="ir.ui.view">
+            <field name="name">pincode.map.form</field>
+            <field name="model">pincode.map</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="warehouse_pin" required="1"/>
+                            <field name="customer_pin"/>
+                            <field name="tat_time"/>
+                            <field name="service"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="warehouse_management_action" model="ir.actions.act_window">
+            <field name="name">Pincode</field>
+            <field name="res_model">pincode.map</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create The New Record
+                </p>
+            </field>
+        </record>
+        <menuitem id="warehouse_location_goods_root_menuitem" name="Courier Track"
+        parent="goods_root_menuitem" 
+        action="supply_chain_management_action" sequence='1'/>
+        <menuitem id="warehouse_goods_root_menuitem" name="Pincode Map"
+            parent="goods_root_menuitem"
+            action="warehouse_management_action" sequence='2'/>
+
+<!-- CHANGE REQUIRED TRUE FIELD TO FALSE -->
+            <record id="client_id" model="ir.ui.view">
+                <field name="name">product.supplierinfo.inheritance</field>
+                <field name="model">product.supplierinfo</field>
+                <field name="inherit_id" ref="product.product_supplierinfo_form_view"></field>
+                <field name="arch" type="xml">
+                    <field name="name" position="attributes">
+                        <attribute name="required">False</attribute>
+                    </field>
+                </field>
+                </record>
+    </data>
+</odoo>
+
+{scm_order.xml}
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="supply_chain_management_tree" model="ir.ui.view">
+            <field name="name">supplier.goods.tree</field>
+            <field name="model">supplier.goods</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="waybill"/>
+                    <field name="partner_id"/>  
+                    <field name="location"/>
+                    <field name="order"/>
+                    <field name="m_date"/>
+                    <field name="p_date"/>
+                    <field name="client_date"/>
+                    <field name="status"/>
+                    <field name="cur_status"/>
+                    <field name="pin"/>
+                    <field name="city"/>
+                    <field name="state"/>
+                    <field name="package"/>
+                    <field name="dis_center"/>
+                    <field name="dis_count"/>
+                    <field name="first_date"/>
+                    <field name="last_date"/>
+                    <field name="count"/>
+                    <field name="first_attempt"/>
+                    <field name="last_attempt"/>
+                    <field name="prom_data"/>
+                    <field name="last_location"/>
+                    <field name="last_scan_date"/>
+                    <field name="last_scan_remark"/>
+                    <field name="delivery_date"/>
+                    <field name="last_NSL"/>
+                    <field name="first_return"/>
+                    <field name="return_dispatch"/>
+                    <field name="first_return_dispatch"/>
+                    <field name="return_promise"/>
+                    <field name="rto_delivery_date"/>
+                    <field name="address_valid"/>
+                    <field name="valid"/>
+                </tree>
+            </field>
+        </record>
+        <record id="supply_chain_management_form" model="ir.ui.view">
+            <field name="name">supplier.goods.form</field>
+            <field name="model">supplier.goods</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <!--<div class="oe_title">
+                            <label for="waybill" class="oe_edit_only"/>
+                            <h1><field name="waybill"/></h1>
+                        </div>-->
+                        <group>
+                            <group>
+                                <label for="waybill" class="oe_edit_only"/>
+                                <h1><field name="waybill"/></h1>
+                            </group>
+                            <group>
+                                <div class="oe_center">
+                                    <field name="selecet_person" widget="radio" options="{'horizontal':true}"/>
+                                </div>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="partner_id" required="1"/>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <group string="Order Status">
+                                <field name="order"/>
+                                <field name="m_date"/>
+                                <field name="p_date"/>
+                                <field name="client_date"/>
+                                <field name="status"/>
+                                <field name="cur_status"/>
+                            </group>
+                            <group string="Destination Address">
+                                <field name="pin"/>
+                                <field name="city"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Package Details">
+                                <field name="package"/>
+                                <field name="dis_center"/>
+                                <field name="dis_count"/>
+                                <field name="first_date"/>
+                                <field name="last_date"/>
+                                <field name="count"/>
+                                <field name="first_attempt"/>
+                                <field name="last_attempt"/>
+                                <field name="prom_data"/>
+                                <field name="last_location"/>
+                                <field name="last_scan_date"/>
+                                <field name="last_scan_remark"/>
+                                <field name="delivery_date"/>
+                            </group>
+                            <group>
+                                <field name="last_NSL"/>
+                                <field name="first_return"/>
+                                <field name="return_dispatch"/>
+                                <field name="first_return_dispatch"/>
+                                <field name="return_promise"/>
+                                <field name="rto_delivery_date"/>
+                                <field name="address_valid"/>
+                                <field name="valid"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="supply_chain_management_action" model="ir.actions.act_window">
+            <field name="name">SCM</field>
+            <field name="res_model">supplier.goods</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create The New Record
+                </p>
+            </field>
+        </record>
+        <menuitem id="supplier_goods" name="SCM"/>
+        <menuitem id="goods_root_menuitem" name="SCM"
+            parent="supplier_goods" 
+            action="supply_chain_management_action" />
+
+<!--CREATING THE NEW MENUITEM IN sale.order MODEL AND VIEWS -->
+<record model="ir.actions.act_window" id="sale_list_prescription_menu">
+    <field name="name">Prescription Order</field>
+    <field name="res_model">sale.order</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('ir_attachement_id','!=',False)]</field>
+    <!-- <field name="domain">['&amp;',('ir_attachement_id','!=',False),('user_id','=',uid)]</field> -->
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face"></p>
+    </field>
+    </record>
+        <menuitem id="prescription_menu_order" name="Prescription Order" 
+	action="sale_list_prescription_menu" parent="product_medical.menu_orders" />
+
+<record model="ir.actions.act_window" id="sale_order_prescription">
+            <field name="name">Prescription Filled Data</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('prescription_id','!=',False)]</field>
+            <!--<field name="domain">['&amp;',('prescription_id','!=',False),('user_id','=',uid)]</field>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face"></p>
+            </field>
+            </record>
+                <menuitem id="prescription_filled_menu_order" name="Prescription Filled Data" 
+                action="sale_order_prescription" parent="product_medical.menu_orders" />
+
+    <!--TO COMPARE THE TWO DATES AND DELETE THE END DATE RECORDS-->
+    @api.onchange('uno_product')
+    def demo_change(self):
+        orm = self.env['product.supplierinfo'].search([('date_end','<=',datetime.today())])
+        for rec in orm:
+            rec.unlink()
+    </data>
+</odoo> 
+
+<to create the attachment option in the field>
+purchase_demand.py
+po.status
+@api.onchange('po_no')
+    def changing_field(self):
+        # purchase.report_purchase_quotation
+
+        if self.po_no:
+            orm = self.env['purchase.order'].search([('name','=',self.po_no.name)])
+            pdf = self.env.ref('purchase.action_report_purchase_order')._render_qweb_pdf(orm.ids)
+            base64_data = base64.b64encode(pdf[0])
+
+            name = "My Attachment"
+            var = self.env['ir.attachment'].create({
+                'name': name,
+                'type': 'binary', 
+                'datas':base64_data,
+                'store_fname': name,
+                'res_model': self._name,
+                'res_id': self.id,
+                'mimetype': 'application/pdf',
+                'public': True,
+            })
+            self.po_download = var.datas
+        else:
+            pass
+
+CREATING THE NEW SELECTION FIELD IN THE STATUS BAR AND ADD THE VIEWS IN THE 
+EXISTING MODEL AND CREATING THE GROUPS FOR THE SINGLE BUTTON 
+security:
+doctor_call.xml (new)
+
+'security/doctor_call.xml',
+    
+
+<odoo>
+    <record model="ir.module.category" id="doctor_call_category">
+        <field name="name">Doctor Call</field>
+        <field name="description">Doctor Call Verify</field>
+    </record>
+
+    <record id="product_medical.group_doctor_call_verify" model="res.groups">
+        <field name="name">Doctor Call Verify</field>
+        <field name="category_id" ref="doctor_call_category"/>
+    </record>
+</odoo>
+
+sale_order.py (new)
+
+from . import sale_order
+
+from odoo import fields,models
+from odoo.exceptions import ValidationError
+
+class Saleorder(models.Model):
+    _inherit = 'sale.order'
+    state = fields.Selection(selection_add=[('doctor_call', 'Doctor Call')])
+
+    def action_doctor_call(self):
+        self.state = 'doctor_call'
+
+sale_order.xml :
+
+sale.order
+
+<xpath expr="//field[@name='state']" position="replace">  
+	<field name="state" widget="statusbar" statusbar_visible="draft,sent,doctor_call,sale" on_change="1" modifiers="{'readonly':true}" id="state"/>
+</xpath>
+<xpath expr="//button[@name='action_pre_verify']" position="after">
+	<button name="action_doctor_call" string="Doctor Call" type="object" groups="product_medical.group_doctor_call_verify"/>
+</xpath>
+
+
+scm_order.xml :
+
+	<menuitem id="selection_doctor_call" name="Doctor Call Verify" 
+            parent="product_medical.menu_orders" />
+        
+        <record model="ir.actions.act_window" id="sale_doctor_call_pending">
+            <field name="name">Doctor Call Pending</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face"></p>
+            </field>
+            </record>
+
+        <menuitem id="selection_doctor_call_pending" name="Doctor Call Pending" 
+            action="sale_doctor_call_pending" parent="selection_doctor_call" />
+
+        <record model="ir.actions.act_window" id="sale_doctor_call_verified">
+            <field name="name">Doctor Call Verified</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','doctor_call')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face"></p>
+            </field>
+            </record>
+
+        <menuitem id="selection_doctor_call_verified" name="Doctor Call Verified" 
+            action="sale_doctor_call_verified" parent="selection_doctor_call" />
+
+product_template.py :
+dummy_status = fields.Selection([('draft','Quotation'),('waiting','Waiting Another Operation'),('sent','Quotation Sent'),
+		
+('doctor_call', 'Doctor Call'),
+    ('sale','Sales Order'),('confirmed','Confirmed'),('assigned','Ready'),('done','Locked'),('cancel','Cancelled')],
+    string='Status')
+
+@api.onchange('state','dummy_status')(search):
+            if rec.dummy_status == 'doctor_call':
+                 rec.order_status = rec.order_status
+
+priority.py:
+map.supplier.preference
+
+schedule = fields.Char(string='Schedule')

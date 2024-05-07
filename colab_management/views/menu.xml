@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+    <record id="colab_view_tree"  model="ir.ui.view">
+        <field name="name">colab.tree</field>
+        <field name="model">company.details</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Name" />
+                <field name="ein_number"  />
+                <field name="payment_process" />
+                <field name="company_type" />
+                <field name="vendor_status" />
+            </tree>
+        </field>
+    </record> 
+    
+    <record id="company_kanbans_view" model="ir.ui.view">
+        <field name="name">company.kanban.view</field>
+        <field name="model">company.details</field>
+        <field name="arch" type="xml">
+            <kanban>     
+                 <field name="name"/>
+                <templates>
+                <t t-name="kanban-box">
+                <div t-attf-class="oe_kanban_global_click">
+                <div class="oe_kanban_details">
+                <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-5">
+                <strong><field name="name"/></strong>   
+                <br></br>
+                <!-- <strong><field name="names"/></strong>
+                <br></br>
+                <strong><field name="no_of_recruitment"/></strong> -->
+                </div>
+                </div>
+                </div>
+                </div>
+                </t>
+                </templates>
+                </kanban>
+                </field>
+                </record>
+
+                <!-- <record id="company_view_calendar" model="ir.ui.view">
+                    <field name="name">company.view.calendar</field>
+                    <field name="model">company.details</field>
+                    <field name="arch" type="xml">
+                        <calendar date_start="create_date">
+                            <field name="name"/>
+                         
+                    </calendar>
+                </field>
+                </record> -->
+                <record id="company_view_graph" model="ir.ui.view">
+                    <field name="name">student.view.graph</field>
+                    <field name="model">company.details</field>
+                    <field name="arch" type="xml">
+                        <graph string="Company Graph ">
+                            <field name="name"/>
+                        </graph>
+                    </field>
+                    </record>
+    
+        <record id="company_details_pivot" model="ir.ui.view">
+            <field name="name">company.view.pivot</field>
+            <field name="model">company.details</field>
+            <field name="arch" type="xml">
+                <pivot string="Company Pivot">
+                    <field name="name" type = 'row'/> 
+                 </pivot>
+            </field>
+            </record> 
+            <!-- <record id="view_patients_land_filter" model="ir.ui.view">
+            <field name="name">Registration</field>
+            <field name="model">company.details</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="EBook">
+                    <field name="name"/>
+                    <field name="contact_no"/>
+                    <field name="patient_id"/>
+        
+                    <filter string="Doctor" name="doctors" context="{'group_by': 'doctors'}"/>
+        </search>
+            </field>
+        </record> -->
+    <record id="colab_management_actionss" model="ir.actions.act_window">
+        <field name="name">Company</field>
+        <field name="res_model">company.details</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a New Record
+            </p>
+        </field>
+    </record>
+
+
+    <!-- CHANGING THE PLACE OF THE MENUITEM TO ANOTHER MENU -->
+    <!-- <menuitem id="colab_management_company" 
+        name="Company" 
+        action="colab_management_actionss"
+        parent="hr_recruitment.menu_crm_case_categ0_act_job"></menuitem> -->
+
+    <menuitem id="company_details_info" name="Company"/>
+    <menuitem id="colab_management_company_details" 
+        name="Company" 
+        action="colab_management_actionss"
+        parent="company_details_info"></menuitem>
+
+<!-- FORM VIEW -->
+        <record id="colab_view_form_id" model="ir.ui.view">
+            <field name="name">colab.view.buttons</field>
+            <field name="model">company.details</field>
+            <!-- <field name="inherit_id" ref="base.view_partner_form" /> -->
+            <field name="arch" type="xml">
+                <form>
+                    
+            <header>
+                <button string="Approved" type="object" name="onhold_button"  class="oe_highlight"  />
+                <button string="Un Approved" type="object" name="unapproved" class="oe_highlight"  />
+                <button string="In Active" type="object" name="inactive" class="oe_highlight"  />
+                <field name="vendor_status" widget="statusbar" statusbar_visible="in-active,on-bording,pending"/>
+                </header>
+                
+                    <sheet>
+<!-- SMART BUTTON CREATION-->
+                    <div class="oe_button_box" name="button_box">
+                    <button name="job_position" type="object" class="oe_stat_button" icon="fa-plus-circle">
+                    <field name="total_job_position" string="Job Position" widget="statinfo"/>
+                    </button>
+                    <!-- new buttons -->
+                    <button name="hr_application" type="object" class="oe_stat_button" icon="fa-file-text">
+                        <field name="tot_job_application" string="Application" widget="statinfo"/>
+                    </button>
+                    
+                    <!-- <button name="select_count" type="object" class="oe_stat_button" icon="fa-file-text">
+                        <field name="selected_counts" string="Selected"  widget="statinfo"/>
+                     </button> -->
+                     <button name="job_application_total" type="object" class="oe_stat_button" icon="fa-file-text">
+                        <field name="no_of_recruitment" string="Job Vacancy" widget="statinfo"/>
+                     </button>
+
+                    <!-- <button name="hr_application" type="object" class="oe_stat_button" icon="fa-file-text">
+                    <field name="tot_job_application" string="CV" widget="statinfo"/>
+                    </button>-->
+
+                    <button name="select_count" type="object" class="oe_stat_button" icon="fa-file-text">
+                    <field name="selected_count" string="Selected" widget="statinfo"/>
+                    </button> 
+                    </div>
+                    <group>
+                        <field name = "company_type" /> 
+                    </group>
+                    <group>
+                        <field name="name" string=" Company Name"/>
+                        <field name="original_name" invisible="1"/>
+    </group>
+    
+                
+                    <!-- <group name='relation_type' string="Relation Type"/>
+                    <group col="10">
+                        <field name='vendor'/>
+                        <field name='pass_through'/>
+                        <field name='imp_partner'/>
+                        <field name='end_client_pass'/>
+                        <field name='referral'/>
+                    </group> -->
+                <!-- new fieds -->
+                 <group>
+                <field name="address" string="Address" required='1'/>
+            </group>
+            <group>
+                <field name="mob_nos"   string="Phone Number" required='1'/>
+            </group>
+            <group>
+                <field name="email"  widget = "email" string="Email Id"/>
+            </group>
+            <!-- <group>
+                <field name="recruiter"/>
+            </group> -->
+
+            <group>
+                <field name="ein_number" />
+            </group>
+            <group>
+                <field name="duns_number" />
+            </group>
+            <group>
+                <field name="mailing_address" />
+            </group>
+
+            <group>
+                <field name="vendor_website" />
+            </group>
+            <group>
+            <field name="partner_name" string="Partner Name" invisible='1'/>
+            </group>
+           
+                <!-- ONE2MANY FIELD -->
+                <notebook >
+                    <page name ='company_information' string = 'Info'>
+                    <!-- <group name="vendor_details" string="Vendor Details"> -->
+                    <group name="vendor_details" >
+                        <group>
+                            <field name="vendor_id" invisible="1"/>
+                            <!-- <field name="vendor_name" /> -->
+                            <field name="duns_number"   invisible="1"/>
+                            <!-- <field name="vendor_address" /> -->
+                            <field name="mailing_address"   invisible="1"/>
+                            <field name="vendor_website"  invisible="1"/>
+                            <!-- <field name="vendor_contact_email" /> -->
+                            <!-- <field name="vendor_contact_phone" /> -->
+                            <field name="permanent_notes"  />
+                            <field name="vendor_ceo"  invisible="1"/>
+                            <field name="last_updated_on"  invisible="1" />
+                         
+                        </group>
+                        <group>
+                            <!-- <field name="vendor_status" /> -->
+                            <field name="payment_process"  invisible="1"/>
+                            <field name="v_auth_email"  invisible="1"/>
+                            <field name="v_auth_phone"  invisible="1" />
+                            <field name="coi_expiry"   invisible="1"/>
+                            <field name="wc_expiry"  invisible="1"/>
+                            <field name="ach_selection"  />
+                            <field name="w9_selection"  />
+                            <field name="addendum_link"  invisible="1"/>
+                            <field name="comments"  invisible="1"/>                        
+                        </group>
+                    </group>
+                    </page>
+                    <page name='basic_information' string="Documents Information">
+                    <!-- <group>
+                        <field name="pending_documents" />
+                    </group> -->
+                    <field name='document_upload'>
+                        <tree editable='bottom'>
+
+                            <field name="document_master" />
+                            <field name="expiry_date" required='1'/>
+                            <field name="upload_document" widget='many2many_binary' required='1'/>
+                            <field name="document_status" />
+                        </tree>
+                    </field>
+                    </page>
+                    <page name='accountant_details' string='Accontant Details' invisible="1">
+                        <field name='accountant_information'>
+                            <tree editable='bottom'>
+                                <field name="account_name" required='1'/>
+                                <field name="account_email" />
+                                <field name="account_contact_no" required='1'/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="end_client_information" string="End Client Information" invisible="1">
+                        <group>
+                            <group>
+                                <field name="client_name" />                        
+                                <field name="client_address" />                        
+                                <field name="client_location" />                        
+                                <field name="msp_fee" widget="percentage"/>
+                                <field name="background_fee" widget="percentage"/>
+                                <field name="end_client"/>                        
+                            </group>
+                            <group>
+                                <field name="boarding_website" widget="url" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                <field name="payment_terms" attrs="{'invisible':[('end_client','=','yes')]}"/> 
+                                        <label for="management_name" string="Management Details" attrs="{'invisible':[('end_client','=','yes')]}" style='font-size:20px;color:#7A5DC7;'></label>                     
+                                    <field name="management_name" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                    <field name="management_email" attrs="{'invisible':[('end_client','=','yes')]}"/>                       
+                                    <field name="management_contact" attrs="{'invisible':[('end_client','=','yes')]}"/>
+                                        <label for="accounting_name" string="Accounting Details" attrs="{'invisible':[('end_client','=','yes')]}" style='font-size:20px;color:#7A5DC7;'></label>
+                                    <field name="accounting_name" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                    <field name="accounting_email" attrs="{'invisible':[('end_client','=','yes')]}"/>                       
+                                    <field name="accounting_contact" attrs="{'invisible':[('end_client','=','yes')]}"/>
+                                        <label for="supporting_name" string="Supporting Details" attrs="{'invisible':[('end_client','=','yes')]}" style='font-size:20px;color:#7A5DC7;'></label>                    
+                                        
+                                    <field name="supporting_name" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                    <field name="supporting_email" attrs="{'invisible':[('end_client','=','yes')]}"/>                       
+                                    <field name="supporting_contact" attrs="{'invisible':[('end_client','=','yes')]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="add_new_field" string="Add New Field" invisible="1">
+                        <group>
+                            <field name='model_id'/>
+                        </group>
+                    </page>
+                    <page name='insert_fields' string='Field Insert' invisible="1">
+                        <group>
+                                            <field name="field_name"/>
+                                            <field name="data_type"/>
+                                            <field name="ref_model_id"  attrs="{'invisible':[('data_type','!=','many2one'),('data_type','!=','many2many')]}"/>
+                                            <field name="widget_many2one"  attrs="{'invisible':[('data_type','!=','many2one')]}"/>
+                                            <field name="widget_many2many"  attrs="{'invisible':[('data_type','!=','many2many')]}"/>
+                                            <field name="selection_field" attrs="{'invisible':[('data_type','!=','selection')]}" placeholder="[('blue', 'Blue'),('red', 'Red')]"/>
+                                            <field name="widget_selection" attrs="{'invisible':[('data_type','!=','selection')]}"/>
+                                            <field name="widget" attrs="{'invisible':[('data_type','!=','binary')]}"/>
+                                            <field name="field_description"/>
+                            </group>
+                    </page>
+                    </notebook>
+            </sheet>
+             <!-- for lognote -->
+             <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+                </div>
+        </form>
+         </field>
+        </record>
+
+<!--HIDE THE ENTIRE MENU(model) IN THE RECRUITMENT MODEL-->
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Invisible</field>
+        </record>
+        <record model="ir.ui.menu" id="hr_recruitment.hr_applicant_category_menu">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+        <record model="ir.ui.menu" id="hr_recruitment.menu_hr_department">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+
+<!-- COMPANY TYPR TREE FORM ACTION MENUITEM -->
+    <record id="company_type_tree_view"  model="ir.ui.view">
+        <field name="name">Company Type Tree</field>
+        <field name="model">company.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_type" />
+            </tree>
+        </field>
+    </record> 
+    <record id="company_type_form_view"  model="ir.ui.view">
+        <field name="name">Company Type Form</field>
+        <field name="model">company.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="company_type" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="company_type_actions" model="ir.actions.act_window">
+        <field name="name">Company Type Actions</field>
+        <field name="res_model">company.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a New Record
+            </p>
+        </field>
+    </record>
+    <menuitem id="company_type_master" 
+        name="Company Type" 
+        action="company_type_actions"
+        parent="company_details_info"></menuitem>
+    
+    <!-- DOCUMENT MASTER -->
+
+    <record id="document_master_tree_views"  model="ir.ui.view">
+        <field name="name">Document Master Tree</field>
+        <field name="model">document.upload</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="expiry_date" />
+                <field name="upload_document" />
+            </tree>
+        </field>
+    </record> 
+    <record id="document_master_form_views"  model="ir.ui.view">
+        <field name="name">Document Master Form</field>
+        <field name="model">document.upload</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="expiry_date" />
+                        <field name="upload_document" widget='many2many_binary'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="document_master_actions_import" model="ir.actions.act_window">
+        <field name="name">Document Master</field>
+        <field name="res_model">document.upload</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a New Record
+            </p>
+        </field>
+    </record>
+    <menuitem id="document_master_menuitems" 
+        name="Documents" 
+        action="document_master_actions_import"
+        parent="company_details_info"></menuitem>
+
+    <!-- PROJECT MASTER -->
+        <menuitem id="project_master_menuitems" 
+        name="Project" 
+        action="project_master_actions_import"
+        parent="company_details_info"></menuitem>
+        
+</data>
+</odoo>

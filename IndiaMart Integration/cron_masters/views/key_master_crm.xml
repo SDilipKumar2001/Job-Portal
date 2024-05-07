@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="tree_view_cron" model="ir.ui.view">
+            <field name="name">Cron lead Tree view</field>
+            <field name="model">cron.crm.lead</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="key_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="form_view_cron" model="ir.ui.view">
+            <field name="name">Cron lead Form view</field>
+            <field name="model">cron.crm.lead</field>
+            <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="key_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+           <record id="action_cron_lead" model="ir.actions.act_window">
+              <field name="name">Actions of Cron lead</field>
+              <field name="res_model">cron.crm.lead</field>
+              <field name="view_mode">tree,form</field>
+              <field name="help" type="html">
+                 <p class="o_view_nocontent_smiling_face">
+                     create your first patient!
+                 </p>
+            </field>
+        </record>   
+        <!-- <menuitem id="lead_cron_menu" name="Data Migration"/> -->
+        <menuitem id="crm_indiamart_odoo" name="Data Master" action="action_cron_lead" parent="crm.crm_menu_config"/>
+    </data>
+</odoo>

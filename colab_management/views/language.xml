@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+    <record id="colab_management_language_tree"  model="ir.ui.view">
+        <field name="name">language.tree</field>
+        <field name="model">programming.language</field>
+        <field name="arch" type="xml">
+            <tree multi_edit="1" duplicate="false" sample="1" editable="bottom">
+            <!-- <tree> -->
+                <field name="language" string="Name" />
+            </tree>
+        </field>
+    </record> 
+    
+    <record id="colab_management_language_action" model="ir.actions.act_window">
+        <field name="name">Languages</field>
+        <field name="res_model">programming.language</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a New Record
+            </p>
+        </field>
+    </record>
+    <menuitem id="colab_management_language" 
+        name="Languages" 
+        action="colab_management_language_action"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"></menuitem>
+    <!-- <record model="ir.actions.act_window" id="action_view_feedback">
+        <field name="name">Languag</field>
+            <field name="res_model">programming.language</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Feedback
+                </p>
+            </field>
+        </record>
+
+<menuitem id="menu_medical_patient_code" name ="Programming Languages" action="action_view_feedback"
+            parent="hr_recruitment.menu_hr_recruitment_configuration"  />
+  -->
+
+
+
+    </data>
+
+</odoo>

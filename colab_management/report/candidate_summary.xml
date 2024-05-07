@@ -1,0 +1,374 @@
+<odoo>
+    <data>
+        <record id="report_candidate_summary" model="ir.actions.report">
+            <field name="name">Candidate Summary</field>
+            <field name="model">hr.applicant</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">colab_management.candidate_summary</field>
+            <field name="report_file">colab_management.candidate_summary</field>
+            <field name="binding_model_id" ref="model_hr_applicant"></field>
+            <field name="binding_type">report</field>
+        </record>
+        <template id="candidate_summary">
+            <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <div class="header_tag" />
+                            <div class="page">
+                                <center>
+                                    <h2>
+                                        <td>
+                                            <span>
+                                                <strong>Candidate Details</strong>
+                                            </span>
+                                        </td>
+                                    </h2>
+                                </center>
+                                <table class="table table-condensed" style="width:100%">
+                                    <div class="page">
+                                    <center>
+                                                <h4>Bio Data</h4>
+                                    </center>
+                                        <tr>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Name</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.name'/></td>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Address</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.address'/></td>
+                                        </tr>
+                                        <tr>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Gender</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.gender'/></td>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Email</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.email_from'/></td>
+                                        </tr>
+                                        <tr>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">DOB</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.dob'/></td>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Highest Qualification</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.h_qualification'/></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Whatsapp</th>
+                                            <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.whats'/></td>
+                                            <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Releated Qualification</th>
+                                            <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.r_qualification'/></td>
+                                        </tr>
+                                        <tr>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Mobile No</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;"><span t-field='o.partner_mobile'/></td>
+                                                <th style="font-weight:900;border: 1px solid black;border-collapse: collapse;">Area of Interest</th>
+                                                <td style="border: 1px solid black;border-collapse: collapse;" ><span t-field='o.area_of_interest'/></td>
+                                        </tr>
+                                        </div>
+                                        </table>
+                                    <!-- PRINT THE BELOW ONLY THE ONE2MANY FIELD HAS DATA -->
+                                <t t-if="o.information">
+                                        <table class="table table-condensed" style="width:100%">
+                                            <div class="page">
+                                            <center>
+                                                        <h4>Experience</h4>
+                                            </center>
+                                            <tr>
+                                                <th style="border:solid 1px; border-collapse: collapse;font-weight:900;">Company Name</th>
+                                                <th style="border:solid 1px; border-collapse: collapse;font-weight:900;">Recent Role In the Company</th>
+                                                <th style="border:solid 1px; border-collapse: collapse;font-weight:900;">Reason For Change</th>
+                                                <th style="border:solid 1px; border-collapse: collapse;font-weight:900;">From</th>
+                                                <th style="border:solid 1px; border-collapse: collapse;font-weight:900;">To</th>
+                                                <th style="border:solid 1px; border-collapse: collapse;font-weight:900;">Experience</th>
+                                            </tr>
+                                                <tr t-foreach='o.information' t-as='line'>
+                                                        <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="line.comp_name"/></td>
+                                                        <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="line.role"/></td>
+                                                        <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="line.change"/></td>
+                                                        <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="line.from_field"/></td>
+                                                        <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="line.to_field"/></td>
+                                                        <td style="border: 1px solid black;border-collapse: collapse;"><span t-field="line.years"/></td>
+                                                </tr>
+                                                </div>
+                                                </table>
+                                </t>
+                                </div>
+                                </t></t></t>
+                                </template>
+                
+        <!-- <record id="report_candidate_summary" model="ir.actions.report">
+            <field name="name">Candidate Summary</field>
+            <field name="model">hr.applicant</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">colab_management.candidate_summary</field>
+            <field name="report_file">colab_management.candidate_summary</field>
+            <field name="binding_model_id" ref="model_hr_applicant"></field>
+            <field name="binding_type">report</field>
+        </record>
+
+
+
+        <template id="candidate_summary">
+            <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <div class="page">
+                                
+                                <h2>
+                                    <td colspan="2" style="text-center">
+                                        <span>
+                                            <strong>Candidate Details</strong>
+                                        </span>
+                                    </td>
+                                </h2>
+                            
+                        <table class="table table-condensed" style="border: 3px solid black !important; padding-left:50px !important;">
+                            <div class="page">
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <h4>Bio Data</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Name</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <strong>:</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span t-field='o.name' style="color:Red;"/>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Gender</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.gender"/>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>DOB</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <strong>:</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-field="o.dob" />
+                                    </strong>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <strong>
+                                        Whatsapp Number
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-field="o.whats" />
+                                    </strong>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <strong>
+                                        Mobile 
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-field="o.partner_mobile" />
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        Phone 
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-field="o.partner_phone" />
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Address</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.address"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Email</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.email_from"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Highest Qualification</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.h_qualification"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Related Qualification</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.r_qualification"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>
+                                        <strong>Area of Interest</strong>
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.area_of_interest"/>
+                                </td>
+                            </tr>
+                        </div>
+                        
+
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    <h4>Job</h4>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <strong>Source</strong>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong>:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.source_id"/>
+                                    </td>
+                                </tr>
+                            
+                                <tr> 
+                                    <td>
+                                        <span>
+                                            <strong>Applied Job</strong>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <strong>:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.job_id" style="color:Red;"/>
+                                    </td>
+                                </tr>
+                            </table>
+                
+                 
+                    <t t-if="o.information">
+                            <h3>
+                                <strong >Experience</strong>
+                            </h3>
+                                
+                                <table  style="border:solid 1px; border-collapse: collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <th style="border:solid 1px; border-collapse: collapse;">Company Name</th>
+                                        <th style="border:solid 1px; border-collapse: collapse;">Recent Role In the Company</th>
+                                        <th style="border:solid 1px; border-collapse: collapse;">Reason For Change</th>
+                                        <th style="border:solid 1px; border-collapse: collapse;">From</th>
+                                        <th style="border:solid 1px; border-collapse: collapse;">To</th>
+                                        <th style="border:solid 1px; border-collapse: collapse;">Experience</th>
+                                    </tr>
+                                    <tr t-foreach='o.information' t-as='line'>
+                                        <td style="border:solid 1px; border-collapse: collapse;">
+                                            <span t-field="line.comp_name"/>
+                                        </td>
+                                        <td style="border:solid 1px; border-collapse: collapse;">
+                                            <span t-field="line.role"/>
+                                        </td>
+                                        <td style="border:solid 1px; border-collapse: collapse;">
+                                            <span t-field="line.change"/>
+                                        </td>
+                                        <td style="border:solid 1px; border-collapse: collapse;">
+                                            <span t-field="line.from_field"/>
+                                        </td>
+                                        <td style="border:solid 1px; border-collapse: collapse;">
+                                            <span t-field="line.to_field"/>
+                                        </td>
+                                        <td style="border:solid 1px; border-collapse: collapse;">
+                                            <span t-field="line.years"/>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                     </t>
+                    </div>
+                </t>
+                </t>
+            </t>
+        </template> -->
+
+</data>
+</odoo>

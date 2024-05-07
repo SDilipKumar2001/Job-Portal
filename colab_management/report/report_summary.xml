@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        
+        <record id="report_vender_summary" model="ir.actions.report">
+            <field name="name">CV ID</field>
+            <field name="model">hr.applicant</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">colab_management.report_candidate</field>
+            <field name="report_file">colab_management.report_candidate</field>
+            <field name="binding_model_id" ref="model_hr_applicant"></field>
+            <field name="binding_type">report</field>
+        </record>
+
+
+
+        <template id="report_candidate">
+            <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <div class="header_tag" />
+                            <div class="page">
+                                <center>
+                                    <h1><span t-field='o.reference_no' style="font-weight: bolder;font-size:25px"/></h1>
+                                    <span t-field="o.job_id" style="font-size:25px"/>
+                                </center>
+                            </div>
+                            </t></t></t>
+                            </template>
+                            
+                        </data>
+</odoo>

@@ -1,0 +1,66 @@
+<odoo>
+     <!-- INHERIT FIELDS IN RECRUITMENT APP IN (hr.job)model  -->
+        <record id="hr_job_form_inherit" model="ir.ui.view">
+            <field name="name">hr.job.inherited</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="colab_management.job_resume"/>
+            <field name="arch" type="xml">
+            <notebook position ="inside">
+               
+          
+        <page string="Form Settings" name = "form settings">
+            
+            <group >
+                    <group string = "Private Details">
+                        <field name="gender_bool"/>
+                        <field name="dob_bool"/>
+                        <field name="whats_bool"/>
+                        <field name="address_bool"/>
+                        <field name="email_from_bool"/>
+                        <field name="partner_phone_bool"/>
+                        <field name="partner_mobile_bool"/>
+                        <field name="go_abroad_bool"/>
+                        <field name="port_bool"/>
+                        <field name="pass_number_bool"/>
+
+                       
+                    </group>
+                    <group string = "Recruiter Details">
+                        <field name ="no_of_hired_employee_bool"/>
+                        <field name ="no_of_recruitment_bool"/>
+                        <field name ="application_sended_bool"/>
+                        <field name ="application_received_bool"/>
+                        <field name="experience_bool"/>
+                        <field name="description_bool"/>    
+                        <field name="salary_bool"/>
+                        <field name="country_bool"/>
+                        <field name="location_bool"/>
+                        
+
+                    </group>
+            </group>
+            <group>
+                <group  string = "For Experienced Candidates" >
+                    
+                    <field name="expected_sal_bool"/>
+                    <field name="last_sal_bool"/>
+                    <field name="h_qualification_bool"/>
+                    <field name="r_qualification_bool"/>
+                    <field name="area_of_intrest_bool"/>
+                    <field name="known_lang_bool"/>
+                    <field name="resume_bool"/>
+                    
+
+                </group>
+                <group string = "Other Certification details">
+                    <field name="other_bool"/>
+                </group>
+
+            </group>
+        </page>
+       
+        </notebook>
+                    
+                </field>
+                </record>
+</odoo>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+    <!-- DOCUMENT MASTER -->
+
+    <record id="project_master_tree_views"  model="ir.ui.view">
+        <field name="name">project Master Tree</field>
+        <field name="model">project.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_name" />
+
+            </tree>
+        </field>
+    </record> 
+    <record id="project_master_form_views"  model="ir.ui.view">
+        <field name="name">project Master Form</field>
+        <field name="model">project.master</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="project_name" />
+ 
+                    </group>
+                    <group>
+                        <field name="company_name" />
+ 
+                    </group>
+                    <group name='relation_type' string="Relation Type"/>
+                    <group col="10">
+                        <field name='vendor'/>
+                        <field name='pass_through'/>
+                        <field name='imp_partner'/>
+                        <field name='end_client_pass'/>
+                        <field name='referral'/>
+                    </group>
+
+                    <group>
+                        <!-- <field name="vendor_status" /> -->
+                        <field name="payment_process" invisible="1"/>
+                        <!-- <field name="auth_person" />
+                        <field name="auth_email" />
+                        <field name="auth_phone"   /> -->
+                        
+
+                        </group>
+                        <group>
+                        <!-- <field name="coi_expiry"  />
+                        <field name="wc_expiry" />
+                        <field name="ach_selection"   />
+                        <field name="w9_selection" /> -->
+                        <field name="addendum_link" />
+                        <!-- <field name="comments"/>                         -->
+                    </group>
+               
+
+                    <notebook>
+                        <page name='accountant_details' string='Contact Details'>
+                            <field name='client_postion_line'>
+                                <tree editable='bottom'>
+                                    <field name="client_position"/>
+                                    <field name="account_name" required='1'/>
+                                    <field name="account_email" />
+                                    <field name="account_contact_no" required='1'/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name='comment_master' string='Comments'>
+                            <field name='comment_master_line'>
+                                <tree editable='bottom'>
+                                    <field name="user_name" required='1'/>
+                                    <field name="comment_name" />
+                                    <field name="date_time" required='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+
+                        <page name="end_client_information" string="End Client Information" attrs="{'invisible':[('end_client_pass','=',False)]}">
+                            <group>
+                                <group>
+                                    <field name="client_name" />          
+                                    <field name="client_address" />            
+                                    <field name="client_location" />                        
+                                    <field name="msp_fee" widget="percentage"/>
+                                    <field name="background_fee" widget="percentage"/>
+                                    <!-- <field name="end_client"/>                         -->
+                                </group>
+                                <group>
+                                    <field name="boarding_website" widget="url"/>                        
+                                    <field name="payment_terms"/> 
+                                            <!-- <label for="management_name" string="Management Details" attrs="{'invisible':[('end_client','=','yes')]}" style='font-size:20px;color:#7A5DC7;'></label>                     
+                                        <field name="management_name" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                        <field name="management_email" attrs="{'invisible':[('end_client','=','yes')]}"/>                       
+                                        <field name="management_contact" attrs="{'invisible':[('end_client','=','yes')]}"/>
+                                            <label for="accounting_name" string="Accounting Details" attrs="{'invisible':[('end_client','=','yes')]}" style='font-size:20px;color:#7A5DC7;'></label>
+                                        <field name="accounting_name" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                        <field name="accounting_email" attrs="{'invisible':[('end_client','=','yes')]}"/>                       
+                                        <field name="accounting_contact" attrs="{'invisible':[('end_client','=','yes')]}"/>
+                                            <label for="supporting_name" string="Supporting Details" attrs="{'invisible':[('end_client','=','yes')]}" style='font-size:20px;color:#7A5DC7;'></label>                    
+                                            
+                                        <field name="supporting_name" attrs="{'invisible':[('end_client','=','yes')]}"/>                        
+                                        <field name="supporting_email" attrs="{'invisible':[('end_client','=','yes')]}"/>                       
+                                        <field name="supporting_contact" attrs="{'invisible':[('end_client','=','yes')]}"/> -->
+                                </group>
+                            </group>
+                            <field name='end_client_postion_line'>
+                                <tree editable='bottom'>
+                                    <field name="client_position"/>
+                                    <field name="account_name" required='1'/>
+                                    <field name="account_email" />
+                                    <field name="account_contact_no" required='1'/>
+                                </tree>
+                            </field>
+                           
+                        </page>
+                        <!-- <page name='end_accountant_details' string='End Contact Details' attrs="{'invisible':[('end_client_pass','=',False)]}">
+                            <field name='end_client_postion_line'>
+                                <tree editable='bottom'>
+                                    <field name="client_position"/>
+                                    <field name="account_name" required='1'/>
+                                    <field name="account_email" />
+                                    <field name="account_contact_no" required='1'/>
+                                </tree>
+                            </field>
+                        </page> -->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_master_actions_import" model="ir.actions.act_window">
+        <field name="name">Project</field>
+        <field name="res_model">project.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a New Record
+            </p>
+        </field>
+    </record>
+    <!-- <menuitem id="document_master_menuitems" 
+        name="Project" 
+        action="project_master_actions_import"
+        parent="company_details_info"></menuitem> -->
+</data>
+</odoo>
